@@ -8,14 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController<NSURLConnectionDelegate, UITableViewDataSource, UITableViewDelegate>
 {
-//    FBProfilePictureView *userProfileImage;
-//    UILabel *userNameLabel;
+    NSArray *news;
+    NSMutableData *data;
+    IBOutlet UITableView *mainTableView;
 }
 @property (strong, nonatomic) FBFriendPickerViewController *friendPickerController;
 @property(strong, nonatomic) IBOutlet FBProfilePictureView *userProfileImage;
 @property(strong, nonatomic) IBOutlet UILabel *userNameLabel;
+@property (nonatomic, retain) NSMutableArray *invites;
+
 
 -(IBAction)logout:(UIButton *)sender;
 -(IBAction)inviteFriends:(UIButton *)sender;

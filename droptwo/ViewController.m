@@ -15,7 +15,7 @@
 @synthesize friendPickerController = _friendPickerController;
 @synthesize userNameLabel;
 @synthesize userProfileImage;
-
+@synthesize invites;
 
 - (void)populateUserDetails 
 {
@@ -55,14 +55,71 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+     data = [[NSMutableData alloc] init];
 	// Do any additional setup after loading the view, typically from a nib.
-    [[NSNotificationCenter defaultCenter] 
-     addObserver:self 
-     selector:@selector(sessionStateChanged:) 
-     name:SCSessionStateChangedNotification
-     object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionStateChanged:) 
+     name:SCSessionStateChangedNotification object:nil];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    NSURL *url = [NSURL URLWithString:@"http://mstage.ruckusreader.com/iphone/json.php"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+ NSURLConnection *demoConnection =   [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    
+    if (demoConnection) {
+         data = [NSMutableData data];
+    }
+    else {
+        NSLog(@"Network problem");
+    }
+    
 }
 
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)mydata
+{
+    [data appendData:mydata];  
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+   
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    
+
+    
+    
+    
+    //NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]  ;
+    NSError * error = nil;
+    NSMutableDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    
+
+    
+    
+
+        
+        invites =[dict valueForKey:@"invites"];
+        //NSMutableArray *your_move =[dict valueForKey:@"your_move"];
+        //NSMutableArray *their_move =[dict valueForKey:@"their_move"];
+        
+
+    
+    [mainTableView reloadData];
+    
+    
+   
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    UIAlertView *errorView = [[UIAlertView alloc]initWithTitle:@"error" message:@"data cannot be downloaded" delegate:nil cancelButtonTitle:@"Dismissss" otherButtonTitles:nil];
+    [errorView show];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO; 
+}
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -91,5 +148,38 @@
     [self populateUserDetails];
 }
 
+
+-(int) numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+   
+    return [invites count];
+    
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // check to see if there is a cell to reuse a cell is rolled off.
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    
+    // if there is no cell avilable create a new one.
+    if(cell == nil)
+    {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    }
+    
+    // Add a detail view accessory
+    cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    
+    // set the cell text
+    NSDictionary *dict = [invites objectAtIndex:indexPath.row];
+    NSString *profile = (NSString*)[dict valueForKey:@"fb_profileId"];
+    NSString *invite_date = (NSString*)[dict valueForKey:@"invite_date"];
+    cell.textLabel.text = profile;
+    
+    return cell;
+}
 
 @end
