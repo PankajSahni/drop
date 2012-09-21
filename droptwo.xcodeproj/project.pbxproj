@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		043C22AF1609F5D200DDDDB9 /* ListFriendsTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 043C22AE1609F5D200DDDDB9 /* ListFriendsTableCell.xib */; };
+		043C22B21609F80100DDDDB9 /* ListFriendsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 043C22B11609F80100DDDDB9 /* ListFriendsCell.m */; };
+		044B1CB1160C8BDC00A56373 /* FBFriendsPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044B1CAF160C8BDC00A56373 /* FBFriendsPickerViewController.m */; };
+		044B1CB2160C8BDC00A56373 /* FBFriendsPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044B1CB0160C8BDC00A56373 /* FBFriendsPickerViewController.xib */; };
 		04848529160894C400DE1528 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04848528160894C300DE1528 /* UIKit.framework */; };
 		0484852B160894C400DE1528 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484852A160894C400DE1528 /* Foundation.framework */; };
 		0484852D160894C400DE1528 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484852C160894C400DE1528 /* CoreGraphics.framework */; };
@@ -23,6 +27,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		043C22AE1609F5D200DDDDB9 /* ListFriendsTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ListFriendsTableCell.xib; path = ../ListFriendsTableCell.xib; sourceTree = "<group>"; };
+		043C22B01609F80000DDDDB9 /* ListFriendsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListFriendsCell.h; sourceTree = "<group>"; };
+		043C22B11609F80100DDDDB9 /* ListFriendsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListFriendsCell.m; sourceTree = "<group>"; };
+		044B1CAE160C8BDC00A56373 /* FBFriendsPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FBFriendsPickerViewController.h; path = ../FBFriendsPickerViewController.h; sourceTree = "<group>"; };
+		044B1CAF160C8BDC00A56373 /* FBFriendsPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FBFriendsPickerViewController.m; path = ../FBFriendsPickerViewController.m; sourceTree = "<group>"; };
+		044B1CB0160C8BDC00A56373 /* FBFriendsPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FBFriendsPickerViewController.xib; path = ../FBFriendsPickerViewController.xib; sourceTree = "<group>"; };
 		04848524160894C300DE1528 /* droptwo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = droptwo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04848528160894C300DE1528 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0484852A160894C400DE1528 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -93,6 +103,12 @@
 		0484852E160894C400DE1528 /* droptwo */ = {
 			isa = PBXGroup;
 			children = (
+				044B1CAE160C8BDC00A56373 /* FBFriendsPickerViewController.h */,
+				044B1CAF160C8BDC00A56373 /* FBFriendsPickerViewController.m */,
+				044B1CB0160C8BDC00A56373 /* FBFriendsPickerViewController.xib */,
+				043C22AE1609F5D200DDDDB9 /* ListFriendsTableCell.xib */,
+				043C22B01609F80000DDDDB9 /* ListFriendsCell.h */,
+				043C22B11609F80100DDDDB9 /* ListFriendsCell.m */,
 				04848537160894C400DE1528 /* AppDelegate.h */,
 				04848538160894C400DE1528 /* AppDelegate.m */,
 				0484854B16089E9A00DE1528 /* LoginViewController.h */,
@@ -171,6 +187,8 @@
 				0484853F160894C400DE1528 /* ViewController.xib in Resources */,
 				048485481608953800DE1528 /* FacebookSDKResources.bundle in Resources */,
 				0484854F16089E9A00DE1528 /* LoginViewController.xib in Resources */,
+				043C22AF1609F5D200DDDDB9 /* ListFriendsTableCell.xib in Resources */,
+				044B1CB2160C8BDC00A56373 /* FBFriendsPickerViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,6 +203,8 @@
 				04848539160894C400DE1528 /* AppDelegate.m in Sources */,
 				0484853C160894C400DE1528 /* ViewController.m in Sources */,
 				0484854E16089E9A00DE1528 /* LoginViewController.m in Sources */,
+				043C22B21609F80100DDDDB9 /* ListFriendsCell.m in Sources */,
+				044B1CB1160C8BDC00A56373 /* FBFriendsPickerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,7 +236,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Samir Roy (NXZ2DSQU9X)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -231,6 +251,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2F23E3D9-102E-4A08-A44B-3364686C87A4";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -258,6 +279,7 @@
 		04848543160894C400DE1528 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Samir Roy (NXZ2DSQU9X)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -266,6 +288,7 @@
 				GCC_PREFIX_HEADER = "droptwo/droptwo-Prefix.pch";
 				INFOPLIST_FILE = "droptwo/droptwo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2F23E3D9-102E-4A08-A44B-3364686C87A4";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -304,6 +327,7 @@
 				04848544160894C400DE1528 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

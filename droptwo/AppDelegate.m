@@ -21,7 +21,7 @@ NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:S
 
 @synthesize window = _window;
 @synthesize viewController = _viewController;
-
+@synthesize fb_access_token = _fb_access_token;
 @synthesize navController = _navController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -117,6 +117,7 @@ NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:S
                       state:(FBSessionState) state
                       error:(NSError *)error
 {
+    //NSLog(@"%@login info",session);
     switch (state) {
         case FBSessionStateOpen: {
             UIViewController *topViewController = 
@@ -126,6 +127,8 @@ NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:S
                 [topViewController dismissModalViewControllerAnimated:YES];
             }
         }
+            //self.fb_access_token = FBSession.activeSession.accessToken;
+            //NSLog(@"%@",self.fb_access_token) ;
             break;
         case FBSessionStateClosed:
         case FBSessionStateClosedLoginFailed:
@@ -134,6 +137,7 @@ NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:S
             [self.navController popToRootViewControllerAnimated:NO];
             
             [FBSession.activeSession closeAndClearTokenInformation];
+            
             
             [self showLoginView];
             break;
@@ -170,6 +174,7 @@ NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:S
   sourceApplication:(NSString *)sourceApplication 
          annotation:(id)annotation 
 {
+    //NSLog(@"%@",FBSession.activeSession);
     return [FBSession.activeSession handleOpenURL:url]; 
 }
 @end

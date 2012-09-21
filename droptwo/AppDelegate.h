@@ -15,7 +15,7 @@ extern NSString *const SCSessionStateChangedNotification;
 @property (strong, nonatomic) UIWindow *window;
 
 @property (strong, nonatomic) ViewController *viewController;
-
+@property (nonatomic, retain) NSString *fb_access_token;
 
 - (void)openSession;
 @end

@@ -18,6 +18,10 @@
 @property(strong, nonatomic) IBOutlet FBProfilePictureView *userProfileImage;
 @property(strong, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (nonatomic, retain) NSMutableArray *invites;
+@property (nonatomic, retain) NSMutableArray *your_turn;
+@property (nonatomic, retain) NSMutableArray *their_turn;
+
+
 
 
 -(IBAction)logout:(UIButton *)sender;

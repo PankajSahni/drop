@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 #import "AppDelegate.h"
+#import "ListFriendsCell.h"
+#import "FBFriendsPickerViewController.h"
 @interface ViewController ()
 @end
 
@@ -15,6 +17,8 @@
 @synthesize friendPickerController = _friendPickerController;
 @synthesize userNameLabel;
 @synthesize userProfileImage;
+@synthesize your_turn;
+@synthesize their_turn;
 @synthesize invites;
 
 - (void)populateUserDetails 
@@ -25,7 +29,7 @@
            NSDictionary<FBGraphUser> *user, 
            NSError *error) {
              if (!error) {
-                 NSLog(@"%@",user.name);
+                 //NSLog(@"%@",user.id);
                  self.userNameLabel.text = user.name;
                  self.userProfileImage.profileID = user.id;
              }
@@ -39,7 +43,7 @@
 
 -(IBAction)inviteFriends:(UIButton *)sender
 {
-    if (!self.friendPickerController) {
+/*    if (!self.friendPickerController) {
         self.friendPickerController = [[FBFriendPickerViewController alloc] 
                                        initWithNibName:nil bundle:nil];
         
@@ -50,8 +54,10 @@
     }
     
     [self.friendPickerController loadData];
-    [self.navigationController pushViewController:self.friendPickerController animated:true];
-}
+    [self.navigationController pushViewController:self.friendPickerController animated:true];*/
+ FBFriendsPickerViewController *_viewCntrl =[[FBFriendsPickerViewController alloc]init];
+ [self.navigationController pushViewController:_viewCntrl animated:YES];
+ }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -74,6 +80,19 @@
     
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if(section == 0)
+    {
+        return @"Game Invites";
+    }
+    else if (section == 1) {
+        return @"Your Turn";
+    }
+    else {
+        return @"Their Turn";
+    }
+}
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)mydata
 {
     [data appendData:mydata];  
@@ -103,8 +122,8 @@
 
         
         invites =[dict valueForKey:@"invites"];
-        //NSMutableArray *your_move =[dict valueForKey:@"your_move"];
-        //NSMutableArray *their_move =[dict valueForKey:@"their_move"];
+        your_turn =[dict valueForKey:@"your_move"];
+        their_turn =[dict valueForKey:@"their_move"];
         
 
     
@@ -151,33 +170,54 @@
 
 -(int) numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 3;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-   
-    return [invites count];
+   if(section == 0)
+       return [invites count];
+    else if(section == 1)
+        return [your_turn count];
+    else {
+        return [their_turn count];
+    }
     
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // check to see if there is a cell to reuse a cell is rolled off.
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    
-    // if there is no cell avilable create a new one.
+    ListFriendsCell *cell = (ListFriendsCell *)[tableView dequeueReusableCellWithIdentifier:@"cell"];
     if(cell == nil)
     {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"ListFriendsTableCell" owner:self options:nil];
+        cell = [nib objectAtIndex:0];
     }
     
-    // Add a detail view accessory
-    cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-    
-    // set the cell text
-    NSDictionary *dict = [invites objectAtIndex:indexPath.row];
-    NSString *profile = (NSString*)[dict valueForKey:@"fb_profileId"];
-    NSString *invite_date = (NSString*)[dict valueForKey:@"invite_date"];
-    cell.textLabel.text = profile;
+    if(indexPath.section == 0)
+    {
+    NSDictionary *invites_dictionary = [invites objectAtIndex:indexPath.row];
+    NSString *profile_id = (NSString*)[invites_dictionary valueForKey:@"fb_profileId"];
+    cell.thumbImage.profileID = profile_id;
+    cell.mainText.text = (NSString*)[invites_dictionary valueForKey:@"fb_profileId"];
+    cell.subtextTitle.text = @"sub_title";
+    cell.subtextValue.text = (NSString*)[invites_dictionary valueForKey:@"invite_date"];   
+    }
+    else if (indexPath.section == 1) {
+        NSDictionary *your_turn_dictionary = [your_turn objectAtIndex:indexPath.row];
+        NSString *profile_id = (NSString*)[your_turn_dictionary valueForKey:@"fb_profileId"];
+        cell.thumbImage.profileID = profile_id;
+        cell.mainText.text = (NSString*)[your_turn_dictionary valueForKey:@"fb_profileId"];
+        cell.subtextTitle.text = @"sub_title";
+        cell.subtextValue.text = (NSString*)[your_turn_dictionary valueForKey:@"last_move_date"];   
+    }
+    else {
+        NSDictionary *their_turn_dictionary = [their_turn objectAtIndex:indexPath.row];
+        NSString *profile_id = (NSString*)[their_turn_dictionary valueForKey:@"fb_profileId"];
+        cell.thumbImage.profileID = profile_id;
+        cell.mainText.text = (NSString*)[their_turn_dictionary valueForKey:@"fb_profileId"];
+        cell.subtextTitle.text = @"sub_title";
+        cell.subtextValue.text = (NSString*)[their_turn_dictionary valueForKey:@"last_move_date"];
+    }
+
     
     return cell;
 }
