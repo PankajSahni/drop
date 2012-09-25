@@ -11,31 +11,27 @@
 #import "ListFriendsCell.h"
 #import "FBFriendsPickerViewController.h"
 @interface ViewController ()
+@property (readonly) ViewModel *viewModelObject; 
 @end
 
 @implementation ViewController
-@synthesize friendPickerController = _friendPickerController;
+
 @synthesize userNameLabel;
 @synthesize userProfileImage;
-@synthesize your_turn;
-@synthesize their_turn;
-@synthesize invites;
 
-- (void)populateUserDetails 
-{
-    if (FBSession.activeSession.isOpen) {
-        [[FBRequest requestForMe] startWithCompletionHandler:
-         ^(FBRequestConnection *connection, 
-           NSDictionary<FBGraphUser> *user, 
-           NSError *error) {
-             if (!error) {
-                 //NSLog(@"%@",user.id);
-                 self.userNameLabel.text = user.name;
-                 self.userProfileImage.profileID = user.id;
-             }
-         }];      
+- (ViewModel *) viewModelObject{
+    if(!viewModelObject){
+        viewModelObject = [[ViewModel alloc] init];
+        viewModelObject.delegate_refresh_my_data = self;
     }
+    return viewModelObject;
 }
+
+- (void)refreshData
+{
+    [mainTableView reloadData];
+}
+
 -(IBAction)logout:(UIButton *)sender 
 {
     [FBSession.activeSession closeAndClearTokenInformation];
@@ -43,41 +39,15 @@
 
 -(IBAction)inviteFriends:(UIButton *)sender
 {
-/*    if (!self.friendPickerController) {
-        self.friendPickerController = [[FBFriendPickerViewController alloc] 
-                                       initWithNibName:nil bundle:nil];
-        
-        // Set the friend picker delegate
-        self.friendPickerController.delegate = self;
-        
-        self.friendPickerController.title = @"Select friends";
-    }
-    
-    [self.friendPickerController loadData];
-    [self.navigationController pushViewController:self.friendPickerController animated:true];*/
  FBFriendsPickerViewController *_viewCntrl =[[FBFriendsPickerViewController alloc]init];
  [self.navigationController pushViewController:_viewCntrl animated:YES];
- }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-     data = [[NSMutableData alloc] init];
-	// Do any additional setup after loading the view, typically from a nib.
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionStateChanged:) 
-     name:SCSessionStateChangedNotification object:nil];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    NSURL *url = [NSURL URLWithString:@"http://mstage.ruckusreader.com/iphone/json.php"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
- NSURLConnection *demoConnection =   [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    
-    if (demoConnection) {
-         data = [NSMutableData data];
-    }
-    else {
-        NSLog(@"Network problem");
-    }
-    
+
+    [self.viewModelObject modelGetDataFromWebServiceForSectionsInvitesYourturnTheirturn];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -93,56 +63,13 @@
         return @"Their Turn";
     }
 }
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)mydata
-{
-    [data appendData:mydata];  
-}
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-   
-}
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-    
 
-    
-    
-    
-    //NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]  ;
-    NSError * error = nil;
-    NSMutableDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    
-
-    
-    
-
-        
-        invites =[dict valueForKey:@"invites"];
-        your_turn =[dict valueForKey:@"your_move"];
-        their_turn =[dict valueForKey:@"their_move"];
-        
-
-    
-    [mainTableView reloadData];
-    
-    
-   
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    UIAlertView *errorView = [[UIAlertView alloc]initWithTitle:@"error" message:@"data cannot be downloaded" delegate:nil cancelButtonTitle:@"Dismissss" otherButtonTitles:nil];
-    [errorView show];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO; 
-}
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     // Release any retained subviews of the main view.
 }
 
@@ -150,21 +77,16 @@
 {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
-- (void)dealloc
-{
-    _friendPickerController.delegate = nil;
-}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    if (FBSession.activeSession.isOpen) {
-        [self populateUserDetails];
-    }
+
 }
 
 - (void)sessionStateChanged:(NSNotification*)notification {
-    [self populateUserDetails];
+
 }
 
 
@@ -174,12 +96,18 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-   if(section == 0)
-       return [invites count];
+    if(section == 0){
+        //(@"%@",self.viewModelObject.invites);
+        return [self.viewModelObject.invites count];
+    }
+       
     else if(section == 1)
-        return [your_turn count];
-    else {
-        return [their_turn count];
+    {
+        return [self.viewModelObject.your_turn count];
+    }
+    else 
+    {
+        return [self.viewModelObject.their_turn count];
     }
     
 }
@@ -194,23 +122,25 @@
     
     if(indexPath.section == 0)
     {
-    NSDictionary *invites_dictionary = [invites objectAtIndex:indexPath.row];
+    NSDictionary *invites_dictionary = [self.viewModelObject.invites objectAtIndex:indexPath.row];
     NSString *profile_id = (NSString*)[invites_dictionary valueForKey:@"fb_profileId"];
     cell.thumbImage.profileID = profile_id;
-    cell.mainText.text = (NSString*)[invites_dictionary valueForKey:@"fb_profileId"];
+        [self.viewModelObject modelGetNameFromFBProfileId: profile_id];
+        cell.mainText.text = self.viewModelObject.get_name_from_fb;
     cell.subtextTitle.text = @"sub_title";
     cell.subtextValue.text = (NSString*)[invites_dictionary valueForKey:@"invite_date"];   
     }
     else if (indexPath.section == 1) {
-        NSDictionary *your_turn_dictionary = [your_turn objectAtIndex:indexPath.row];
+        NSDictionary *your_turn_dictionary = [self.viewModelObject.your_turn objectAtIndex:indexPath.row];
         NSString *profile_id = (NSString*)[your_turn_dictionary valueForKey:@"fb_profileId"];
+        
         cell.thumbImage.profileID = profile_id;
         cell.mainText.text = (NSString*)[your_turn_dictionary valueForKey:@"fb_profileId"];
         cell.subtextTitle.text = @"sub_title";
         cell.subtextValue.text = (NSString*)[your_turn_dictionary valueForKey:@"last_move_date"];   
     }
     else {
-        NSDictionary *their_turn_dictionary = [their_turn objectAtIndex:indexPath.row];
+        NSDictionary *their_turn_dictionary = [self.viewModelObject.their_turn objectAtIndex:indexPath.row];
         NSString *profile_id = (NSString*)[their_turn_dictionary valueForKey:@"fb_profileId"];
         cell.thumbImage.profileID = profile_id;
         cell.mainText.text = (NSString*)[their_turn_dictionary valueForKey:@"fb_profileId"];
