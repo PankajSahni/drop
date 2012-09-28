@@ -12,10 +12,18 @@
 {
     IBOutlet UITableView *mainTableView;
     ViewModel *viewModelObject;
+
 }
 
 @property(strong, nonatomic) IBOutlet FBProfilePictureView *userProfileImage;
 @property(strong, nonatomic) IBOutlet UILabel *userNameLabel;
+
+@property (nonatomic, retain) NSMutableArray *array_section_headers;
+@property (nonatomic, retain) NSMutableArray *array_rows_in_section;
+@property (nonatomic, retain) NSMutableArray *array_store_json_returned_dictionary_objects;
+
+@property (nonatomic, assign) NSInteger int_sections_in_table;
+
 - (void)refreshData;
 -(IBAction)logout:(UIButton *)sender;
 -(IBAction)inviteFriends:(UIButton *)sender;

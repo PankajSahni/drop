@@ -19,7 +19,8 @@
 @synthesize active_webservice_connection;
 @synthesize get_webservice_file_from_request;
 @synthesize get_dictionary_from_url;
-@synthesize get_name_from_fb;
+
+
 -(void)modelGetDataFromWebServiceForSectionsInvitesYourturnTheirturn
 {
     data = [[NSMutableData alloc] init];
@@ -70,11 +71,7 @@
         invites =[get_dictionary_from_url valueForKey:@"invites"];
         your_turn =[get_dictionary_from_url valueForKey:@"your_move"];
         their_turn =[get_dictionary_from_url valueForKey:@"their_move"];
-    }
-    else {
-        get_dictionary_from_url = [NSJSONSerialization JSONObjectWithData:data_from_fb options:0 error:&error];
-        get_name_from_fb =[get_dictionary_from_url valueForKey:@"name"];
-        
+
     }
     
     [(ViewController*)delegate_refresh_my_data refreshData];
