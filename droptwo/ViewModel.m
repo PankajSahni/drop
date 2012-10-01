@@ -26,7 +26,7 @@
     data = [[NSMutableData alloc] init];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     webservice_url = [NSURL URLWithString:@"http://mstage.ruckusreader.com/iphone/json.php"];
-    webservice_request = [NSURLRequest requestWithURL:webservice_url];
+    webservice_request = [NSMutableURLRequest requestWithURL:webservice_url];
     active_webservice_connection = [[NSURLConnection alloc] initWithRequest:webservice_request delegate:self];
     NSString *url_string = [[webservice_request URL] path];
     get_webservice_file_from_request = [[url_string lastPathComponent] stringByDeletingPathExtension];
@@ -86,26 +86,4 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO; 
 }
 
--(void)modelGetNameFromFBProfileId:(NSString *)profile_id
-{
-    data = [[NSMutableData alloc] init];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    NSString *graph_url = @"http://graph.facebook.com/";
-    graph_url =[graph_url stringByAppendingString:profile_id];
-
-    webservice_url = [NSURL URLWithString:graph_url];
-    webservice_request = [NSURLRequest requestWithURL:webservice_url];
-    active_webservice_connection = [[NSURLConnection alloc] initWithRequest:webservice_request delegate:self];
-    NSString *url_string = [[webservice_request URL] path];
-    get_webservice_file_from_request = [[url_string lastPathComponent] stringByDeletingPathExtension];
-    //NSLog(@"graph %@",active_webservice_connection);
-    if (active_webservice_connection) 
-    {
-        data_from_fb = [NSMutableData data];
-    }
-    else 
-    {
-        NSLog(@"Network problem");
-    }
-}
 @end

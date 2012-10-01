@@ -20,7 +20,7 @@
 
 @property (nonatomic, retain) NSMutableArray *array_section_headers;
 @property (nonatomic, retain) NSMutableArray *array_rows_in_section;
-@property (nonatomic, retain) NSMutableArray *array_store_json_returned_dictionary_objects;
+@property (nonatomic, retain) NSMutableArray *array_dictionary_in_current_section;
 
 @property (nonatomic, assign) NSInteger int_sections_in_table;
 

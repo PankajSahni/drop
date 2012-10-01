@@ -21,6 +21,7 @@
 @synthesize array_section_headers;
 @synthesize int_sections_in_table;
 @synthesize array_rows_in_section;
+@synthesize array_dictionary_in_current_section;
 - (ViewModel *) viewModelObject{
     if(!viewModelObject){
         viewModelObject = [[ViewModel alloc] init];
@@ -90,11 +91,13 @@
     int_sections_in_table = 0;
     array_section_headers = [[NSMutableArray alloc] init];
     array_rows_in_section = [[NSMutableArray alloc] init];
+    array_dictionary_in_current_section = [[NSMutableArray alloc] init];
     if([self.viewModelObject.invites count] != 0)
     {
         int_sections_in_table += 1;
         [array_section_headers addObject:@"Game Invites"];
         [array_rows_in_section addObject:[NSString stringWithFormat:@"%d", [self.viewModelObject.invites count]]];
+        [array_dictionary_in_current_section addObject:self.viewModelObject.invites];
 
     }
     if([self.viewModelObject.your_turn count] != 0)
@@ -102,12 +105,14 @@
         int_sections_in_table += 1;
         [array_section_headers addObject:@"Your Turn"];
         [array_rows_in_section addObject:[NSString stringWithFormat:@"%d", [self.viewModelObject.your_turn count]]];
+        [array_dictionary_in_current_section addObject:self.viewModelObject.your_turn];
     }
     if([self.viewModelObject.their_turn count] != 0)
     {
         int_sections_in_table += 1;
-        [array_section_headers addObject:@"Their Invites"];
+        [array_section_headers addObject:@"Their Turn"];
         [array_rows_in_section addObject:[NSString stringWithFormat:@"%d", [self.viewModelObject.their_turn count]]];
+        [array_dictionary_in_current_section addObject:self.viewModelObject.their_turn];
     }    
      return int_sections_in_table;
 
@@ -124,45 +129,37 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"ListFriendsTableCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
-    
-    if(indexPath.section == 0 && [self.viewModelObject.invites count] != 0)
-    {
-    NSDictionary *invites_dictionary = [self.viewModelObject.invites objectAtIndex:indexPath.row];
-    NSString *profile_id = (NSString*)[invites_dictionary valueForKey:@"fb_profileId"];
-        
-        cell.thumbImage.profileID = profile_id;
-        cell.mainText.text = (NSString*)[invites_dictionary valueForKey:@"name"]; 
-        cell.subtextTitle.text = @"Invitation Sent: ";
-        cell.subtextValue.text = (NSString*)[invites_dictionary valueForKey:@"invite_date"];   
-    }
-    else if(indexPath.section == 0 && [self.viewModelObject.invites count] == 0)
-    {
-        cell.mainText.text = @"Please invite your friends to play with you%@"; 
-        cell.subtextTitle.text = @"";
-        cell.subtextValue.text = @"";
-    }
-    if(indexPath.section == 1 && [self.viewModelObject.your_turn count] != 0) 
-    {
-        NSDictionary *your_turn_dictionary = [self.viewModelObject.your_turn objectAtIndex:indexPath.row];
-        NSString *profile_id = (NSString*)[your_turn_dictionary valueForKey:@"fb_profileId"];
-        
-        cell.thumbImage.profileID = profile_id;
-        cell.mainText.text = (NSString*)[your_turn_dictionary valueForKey:@"name"];
-        cell.subtextTitle.text = @"Last Move: ";
-        cell.subtextValue.text = (NSString*)[your_turn_dictionary valueForKey:@"last_move_date"];   
-    }
-    if(indexPath.section == 2 && [self.viewModelObject.their_turn count] != 0)
-    {
-        NSDictionary *their_turn_dictionary = [self.viewModelObject.their_turn objectAtIndex:indexPath.row];
-        NSString *profile_id = (NSString*)[their_turn_dictionary valueForKey:@"fb_profileId"];
-        
-        cell.thumbImage.profileID = profile_id;
-        cell.mainText.text = (NSString*)[their_turn_dictionary valueForKey:@"name"];
-        cell.subtextTitle.text = @"Last Move: ";
-        cell.subtextValue.text = (NSString*)[their_turn_dictionary valueForKey:@"last_move_date"];
-    }
+    if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"Game Invites"])
+       {
+           
+         NSDictionary *current_dictionary = [self.viewModelObject.invites objectAtIndex:indexPath.row];
+           NSString *profile_id = (NSString*)[current_dictionary valueForKey:@"fb_profileId"];
+           cell.thumbImage.profileID = profile_id;
+           cell.mainText.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"name"]];
+           cell.subtextTitle.text = @"Invitation Sent: ";
+           cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"date"]];
 
-    
+       }
+    if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"Your Turn"])
+    {
+        NSDictionary *current_dictionary = [self.viewModelObject.your_turn objectAtIndex:indexPath.row];
+        NSString *profile_id = (NSString*)[current_dictionary valueForKey:@"fb_profileId"];
+        cell.thumbImage.profileID = profile_id;
+        cell.mainText.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"name"]];
+        cell.subtextTitle.text = @"Invitation Sent: ";
+        cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"date"]];
+        
+    }
+    if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"Their Invites"])
+    {
+        NSDictionary *current_dictionary = [self.viewModelObject.their_turn objectAtIndex:indexPath.row];
+        NSString *profile_id = (NSString*)[current_dictionary valueForKey:@"fb_profileId"];
+        cell.thumbImage.profileID = profile_id;
+        cell.mainText.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"name"]];
+        cell.subtextTitle.text = @"Invitation Sent: ";
+        cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"date"]];
+        
+    }    
     return cell;
 }
 

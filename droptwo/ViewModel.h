@@ -24,12 +24,12 @@
 
 
 @property (nonatomic, retain) NSURL *webservice_url;
-@property (nonatomic, retain) NSURLRequest *webservice_request;
+@property (nonatomic, retain) NSMutableURLRequest *webservice_request;
 @property (nonatomic, retain) NSURLConnection *active_webservice_connection;
 @property (nonatomic, retain) NSString *get_webservice_file_from_request;
 @property (nonatomic, retain) NSMutableDictionary *get_dictionary_from_url;
 
 
 -(void)modelGetDataFromWebServiceForSectionsInvitesYourturnTheirturn;
--(void)modelGetNameFromFBProfileId:(NSString *)profile_id;
+
 @end
