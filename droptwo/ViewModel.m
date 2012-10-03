@@ -14,76 +14,16 @@
 @synthesize their_turn;
 @synthesize invites;
 @synthesize delegate_refresh_my_data;
-@synthesize webservice_url;
-@synthesize webservice_request;
-@synthesize active_webservice_connection;
-@synthesize get_webservice_file_from_request;
-@synthesize get_dictionary_from_url;
 
 
--(void)modelGetDataFromWebServiceForSectionsInvitesYourturnTheirturn
+
+-(void)inflate_arrays_invites_your_turn_their_turn_and_reload_tableview:(NSDictionary *)dictionary_response
 {
-    data = [[NSMutableData alloc] init];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    webservice_url = [NSURL URLWithString:@"http://mstage.ruckusreader.com/iphone/json.php"];
-    webservice_request = [NSMutableURLRequest requestWithURL:webservice_url];
-    active_webservice_connection = [[NSURLConnection alloc] initWithRequest:webservice_request delegate:self];
-    NSString *url_string = [[webservice_request URL] path];
-    get_webservice_file_from_request = [[url_string lastPathComponent] stringByDeletingPathExtension];
-    if (active_webservice_connection) 
-    {
-        data = [NSMutableData data];
-    }
-    else 
-    {
-        NSLog(@"Network problem");
-    }
-
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)mydata
-{
-    if ([get_webservice_file_from_request isEqualToString:@"json"]) 
-    {
-        [data appendData:mydata];  
-    }
-    else {
-        [data_from_fb appendData:mydata];
-    }
-    
-    
-
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    //NSLog(@"connection: %@",connection);
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    NSError * error = nil;
-    get_dictionary_from_url = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    //NSLog(@"webservice_page: %@",get_webservice_file);
-    if ([get_webservice_file_from_request isEqualToString:@"json"]) {
-        invites =[get_dictionary_from_url valueForKey:@"invites"];
-        your_turn =[get_dictionary_from_url valueForKey:@"your_move"];
-        their_turn =[get_dictionary_from_url valueForKey:@"their_move"];
-
-    }
-    
+    invites =[dictionary_response valueForKey:@"invites"];
+    your_turn =[dictionary_response valueForKey:@"your_move"];
+    their_turn =[dictionary_response valueForKey:@"their_move"];
     [(ViewController*)delegate_refresh_my_data refreshData];
-    
-    
 }
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    UIAlertView *errorView = [[UIAlertView alloc]initWithTitle:@"error" message:@"data cannot be downloaded" delegate:nil cancelButtonTitle:@"Dismissss" otherButtonTitles:nil];
-    [errorView show];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO; 
-}
 
 @end

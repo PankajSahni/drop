@@ -12,4 +12,6 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import <FacebookSDK/FacebookSDK.h>
+
+#define kBaseUrl @"http://mstage.ruckusreader.com/dropfour/"
 #endif

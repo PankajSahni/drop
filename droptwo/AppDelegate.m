@@ -12,7 +12,8 @@
 #import "LoginViewController.h"
 NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:SCSessionStateChangedNotification";
 @interface AppDelegate ()
-
+@property (readonly) ViewModel *viewModelObject; 
+@property (readonly) GlobalUtility *globalUtilityObject;
 @property (strong, nonatomic) UINavigationController* navController;
 
 @end
@@ -23,7 +24,21 @@ NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:S
 @synthesize viewController = _viewController;
 @synthesize fb_access_token = _fb_access_token;
 @synthesize navController = _navController;
+- (GlobalUtility *) globalUtilityObject{
+    if(!globalUtilityObject){
+        globalUtilityObject = [[GlobalUtility alloc] init];
+        globalUtilityObject.delegate_refresh_my_data = self;
+        
+    }
+    return globalUtilityObject;
+}
+- (ViewModel *) viewModelObject{
+    if(!viewModelObject){
+        viewModelObject = [[ViewModel alloc] init];
 
+    }
+    return viewModelObject;
+}
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
@@ -41,6 +56,7 @@ NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:S
     // See if we have a valid token for the current state.
     if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
         [self openSession];
+        [self updateMyUserIdOnServer];
         // To-do, show logged in view
     } else {
         // No, display the login page.
@@ -177,4 +193,28 @@ NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:S
     //NSLog(@"%@",FBSession.activeSession);
     return [FBSession.activeSession handleOpenURL:url]; 
 }
+
+- (void)updateMyUserIdOnServer 
+{
+    if (FBSession.activeSession.isOpen) {
+        [[FBRequest requestForMe] startWithCompletionHandler:
+         ^(FBRequestConnection *connection, 
+           NSDictionary<FBGraphUser> *user, 
+           NSError *error) {
+             if (!error) {
+                 NSString *string_update_user_id = @"user.php";
+                 NSDictionary *dictionary_for_json_data = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                                           user.id,@"fb_profileid",user.name,@"name", nil];
+                 NSError *error = nil;
+                 NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary_for_json_data options:0 error:&error];
+                 NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+                 //NSLog(@"JSON Output: %@", jsonString);
+                 [self.globalUtilityObject modelHitWebservice:(NSString *)string_update_user_id with_json:(NSString *)jsonString];
+                 
+             }
+         }];      
+    }
+}
+
+
 @end

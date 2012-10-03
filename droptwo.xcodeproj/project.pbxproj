@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		040FE385161C6418004124A8 /* GlobalUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 040FE384161C6417004124A8 /* GlobalUtility.m */; };
 		0412B3D816118A1D008B36D4 /* ViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0412B3D716118A1D008B36D4 /* ViewModel.m */; };
 		043C22AF1609F5D200DDDDB9 /* ListFriendsTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 043C22AE1609F5D200DDDDB9 /* ListFriendsTableCell.xib */; };
 		043C22B21609F80100DDDDB9 /* ListFriendsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 043C22B11609F80100DDDDB9 /* ListFriendsCell.m */; };
@@ -28,6 +29,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		040FE383161C6417004124A8 /* GlobalUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlobalUtility.h; path = m/GlobalUtility.h; sourceTree = "<group>"; };
+		040FE384161C6417004124A8 /* GlobalUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GlobalUtility.m; path = m/GlobalUtility.m; sourceTree = "<group>"; };
 		0412B3D616118A1D008B36D4 /* ViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewModel.h; path = ../ViewModel.h; sourceTree = "<group>"; };
 		0412B3D716118A1D008B36D4 /* ViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewModel.m; path = ../ViewModel.m; sourceTree = "<group>"; };
 		043C22AE1609F5D200DDDDB9 /* ListFriendsTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ListFriendsTableCell.xib; path = ../../ListFriendsTableCell.xib; sourceTree = "<group>"; };
@@ -141,6 +144,8 @@
 		0484852E160894C400DE1528 /* droptwo */ = {
 			isa = PBXGroup;
 			children = (
+				040FE383161C6417004124A8 /* GlobalUtility.h */,
+				040FE384161C6417004124A8 /* GlobalUtility.m */,
 				04848537160894C400DE1528 /* AppDelegate.h */,
 				04848538160894C400DE1528 /* AppDelegate.m */,
 				0412B3D2161180D7008B36D4 /* c */,
@@ -235,6 +240,7 @@
 				043C22B21609F80100DDDDB9 /* ListFriendsCell.m in Sources */,
 				044B1CB1160C8BDC00A56373 /* FBFriendsPickerViewController.m in Sources */,
 				0412B3D816118A1D008B36D4 /* ViewModel.m in Sources */,
+				040FE385161C6418004124A8 /* GlobalUtility.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

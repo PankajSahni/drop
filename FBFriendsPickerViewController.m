@@ -33,21 +33,7 @@
 {
     [super viewDidLoad];
 
-    
-    data = [[NSMutableData alloc] init];
-	// Do any additional setup after loading the view, typically from a nib.
 
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    NSURL *url = [NSURL URLWithString:@"http://mstage.ruckusreader.com/iphone/json.php"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    NSURLConnection *demoConnection =   [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    
-    if (demoConnection) {
-        data = [NSMutableData data];
-    }
-    else {
-        NSLog(@"Network problem");
-    }
     
 }
 

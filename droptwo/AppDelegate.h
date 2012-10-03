@@ -7,11 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ViewModel.h"
+#import "GlobalUtility.h"
 extern NSString *const SCSessionStateChangedNotification;
 @class ViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
-
+{
+    ViewModel *viewModelObject;
+    GlobalUtility *globalUtilityObject;
+}
+    
 @property (strong, nonatomic) UIWindow *window;
 
 @property (strong, nonatomic) ViewController *viewController;
