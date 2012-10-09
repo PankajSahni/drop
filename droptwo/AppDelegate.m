@@ -10,6 +10,7 @@
 
 #import "ViewController.h"
 #import "LoginViewController.h"
+#import "GlobalSingleton.h"
 NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:SCSessionStateChangedNotification";
 @interface AppDelegate ()
 @property (readonly) ViewModel *viewModelObject; 
@@ -202,6 +203,8 @@ NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:S
            NSDictionary<FBGraphUser> *user, 
            NSError *error) {
              if (!error) {
+                 [GlobalSingleton sharedManager].string_my_fb_id = user.id;
+                 //NSLog(@"user_id%@",[GlobalSingleton sharedManager].string_my_fb_id);
                  NSString *string_update_user_id = @"user.php";
                  NSDictionary *dictionary_for_json_data = [[NSDictionary alloc] initWithObjectsAndKeys:
                                                            user.id,@"fb_profileid",user.name,@"name", nil];

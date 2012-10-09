@@ -7,15 +7,33 @@
 //
 
 #import "FBFriendsPickerViewController.h"
-#import "AppDelegate.h"
-#import "ListFriendsCell.h"
-#import "ViewController.h"
-@interface FBFriendsPickerViewController ()
 
+#import "ListFriendsCell.h"
+#import "GlobalSingleton.h"
+#import "GlobalUtility.h"
+@interface FBFriendsPickerViewController ()
+@property (readonly) FBFriendsPickerModel *fBFriendsPickerModelObject; 
+@property (readonly) GlobalUtility *globalUtilityObject; 
 @end
 
 @implementation FBFriendsPickerViewController
 @synthesize invites;
+@synthesize array_fb_friends_not_playing_with_me;
+@synthesize string_invite_fb_name;
+@synthesize string_invite_fb_profile_id;
+- (FBFriendsPickerModel *) fBFriendsPickerModelObject{
+    if(!fBFriendsPickerModelObject){
+        fBFriendsPickerModelObject = [[FBFriendsPickerModel alloc] init];
+    }
+    return fBFriendsPickerModelObject;
+}
+- (GlobalUtility *) globalUtilityObject{
+    if(!globalUtilityObject){
+        globalUtilityObject = [[GlobalUtility alloc] init];
+        globalUtilityObject.delegate_refresh_my_data = self;
+    }
+    return globalUtilityObject;
+}
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -32,61 +50,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[GlobalSingleton sharedManager]array_friends_already_invited];
+    array_fb_friends_not_playing_with_me = [[NSMutableArray alloc]init ];
+    array_fb_friends_not_playing_with_me = [self.fBFriendsPickerModelObject 
+                          getFacebookFriendsNotInvitedOrPlaying:[[GlobalSingleton sharedManager]array_friends_already_invited]];
 
-
-    
 }
 
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)mydata
-{
-    [data appendData:mydata];  
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-    
-    
-    
-    
-    
-    //NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]  ;
-    NSError * error = nil;
-    NSMutableDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    
-    
-    
-    
-    
-    
-    invites =[dict valueForKey:@"invites"];
-    
-    
-    
-    [friendsPickerTableView reloadData];
-    
-    
-    
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    UIAlertView *errorView = [[UIAlertView alloc]initWithTitle:@"error" message:@"data cannot be downloaded" delegate:nil cancelButtonTitle:@"Dismissss" otherButtonTitles:nil];
-    [errorView show];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO; 
-}
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    // Release any retained subviews of the main view.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -97,7 +70,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 
-        return [invites count];
+        return [array_fb_friends_not_playing_with_me count];
     
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -108,17 +81,56 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"ListFriendsTableCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
-
-        NSDictionary *invites_dictionary = [invites objectAtIndex:indexPath.row];
-        NSString *profile_id = (NSString*)[invites_dictionary valueForKey:@"fb_profileId"];
+    NSArray *array_profile_id_and_name = [array_fb_friends_not_playing_with_me objectAtIndex: indexPath.row];
+        NSString *profile_id = [array_profile_id_and_name objectAtIndex:0];
+        NSString *name = [array_profile_id_and_name objectAtIndex:1];
         cell.thumbImage.profileID = profile_id;
-        cell.mainText.text = (NSString*)[invites_dictionary valueForKey:@"fb_profileId"];
-        cell.subtextTitle.text = @"sub_title";
-        cell.subtextValue.text = (NSString*)[invites_dictionary valueForKey:@"invite_date"];   
-    
-    
-    
+        cell.mainText.text = name;
+        cell.subtextTitle.text = @"";
+        cell.subtextValue.text = @""; 
+
     return cell;
 }
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+//    /NSLog(@"cell%@",indexPath.row);
+    UIAlertView *alert = [[UIAlertView alloc] init];
+	[alert setTitle:@"Confirm"];
+	[alert setMessage:@"Do you pick Yes or No?"];
+	[alert setDelegate:self];
+	[alert addButtonWithTitle:@"Yes"];
+	[alert addButtonWithTitle:@"No"];
+	[alert show];
+    NSArray *array_profile_id_and_name = [array_fb_friends_not_playing_with_me objectAtIndex: indexPath.row];
+    string_invite_fb_profile_id = [array_profile_id_and_name objectAtIndex:0];
+    string_invite_fb_name = [array_profile_id_and_name objectAtIndex:1];
+    
+    //NSLog(@"profile_id%@",profile_id);
+    // do stuff with cell
+    //
+}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if (buttonIndex == 0)
+	{
+		NSLog(@"yes");
+        NSString *invited_by = [GlobalSingleton sharedManager].string_my_fb_id;
+        NSDictionary *dictionary_invite_fb_id = 
+        [[NSDictionary alloc]initWithObjectsAndKeys:string_invite_fb_profile_id,@"fb_id",
+         string_invite_fb_name,@"name",invited_by,@"invited_by", nil];
+        NSError *error = nil;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary_invite_fb_id options:0 error:&error];
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        //[dictionary_invite_fb_id 
+        NSString *string_get_invites_your_turn_their_turn_from_server = @"invite_friend.php";
+        NSDictionary *dictionary_response = [self.globalUtilityObject modelHitWebservice:(NSString *)string_get_invites_your_turn_their_turn_from_server with_json:jsonString];
+        NSLog(@"response%@",dictionary_response);
+	}
+	else if (buttonIndex == 1)
+	{
+		NSLog(@"No");
+	}
+}
 @end

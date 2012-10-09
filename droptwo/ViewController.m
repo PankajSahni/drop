@@ -7,13 +7,15 @@
 //
 
 #import "ViewController.h"
-#import "AppDelegate.h"
 #import "ListFriendsCell.h"
+#import "GlobalUtility.h"
 #import "FBFriendsPickerViewController.h"
 
 @interface ViewController ()
+
 @property (readonly) ViewModel *viewModelObject; 
-@property (readonly) GlobalUtility *globalUtilityObject; 
+@property (readonly) GlobalUtility *globalUtilityObject;
+
 @end
 
 @implementation ViewController
@@ -23,7 +25,7 @@
 @synthesize array_section_headers;
 @synthesize int_sections_in_table;
 @synthesize array_rows_in_section;
-@synthesize array_friends_already_invited;
+
 - (ViewModel *) viewModelObject{
     if(!viewModelObject){
         viewModelObject = [[ViewModel alloc] init];
@@ -37,6 +39,7 @@
     }
     return globalUtilityObject;
 }
+
 - (void)refreshData
 {
     [mainTableView reloadData];
@@ -59,7 +62,7 @@
     //NSLog(@"token:%@",FBSession.activeSession.accessToken); 
     NSString *string_get_invites_your_turn_their_turn_from_server = @"json.php";
     NSDictionary *dictionary_response = [self.globalUtilityObject modelHitWebservice:(NSString *)string_get_invites_your_turn_their_turn_from_server with_json:(NSString *)nil];
-    [self.viewModelObject inflate_arrays_invites_your_turn_their_turn_and_reload_tableview:(NSDictionary *)dictionary_response];
+    [self.viewModelObject arrayInflateInvitesYourturnTheirturnReloadRTableview:(NSDictionary *)dictionary_response];
     
 }
 
@@ -134,13 +137,11 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"ListFriendsTableCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
-    array_friends_already_invited = [[NSMutableArray alloc] init];
     if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"Game Invites"])
        {
            
          NSDictionary *current_dictionary = [self.viewModelObject.invites objectAtIndex:indexPath.row];
            NSString *profile_id = (NSString*)[current_dictionary valueForKey:@"fb_profileId"];
-           [array_friends_already_invited addObject:profile_id];
            cell.thumbImage.profileID = profile_id;
            cell.mainText.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"name"]];
            cell.subtextTitle.text = @"Invitation Sent: ";
@@ -151,7 +152,6 @@
     {
         NSDictionary *current_dictionary = [self.viewModelObject.your_turn objectAtIndex:indexPath.row];
         NSString *profile_id = (NSString*)[current_dictionary valueForKey:@"fb_profileId"];
-        [array_friends_already_invited addObject:profile_id];
         cell.thumbImage.profileID = profile_id;
         cell.mainText.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"name"]];
         cell.subtextTitle.text = @"Invitation Sent: ";
@@ -162,13 +162,12 @@
     {
         NSDictionary *current_dictionary = [self.viewModelObject.their_turn objectAtIndex:indexPath.row];
         NSString *profile_id = (NSString*)[current_dictionary valueForKey:@"fb_profileId"];
-        [array_friends_already_invited addObject:profile_id];
         cell.thumbImage.profileID = profile_id;
         cell.mainText.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"name"]];
         cell.subtextTitle.text = @"Invitation Sent: ";
         cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"date"]];
         
-    }    
+    }
     return cell;
 }
 

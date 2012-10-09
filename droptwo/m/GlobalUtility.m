@@ -25,7 +25,7 @@
     NSError *error = NULL;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:webservice_request returningResponse:&response error:&error];
     NSDictionary *dictionary_from_json_response = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error];
-    NSLog(@"%@",dictionary_from_json_response);
+    //NSLog(@"%@",dictionary_from_json_response);
     return dictionary_from_json_response;
 }
 

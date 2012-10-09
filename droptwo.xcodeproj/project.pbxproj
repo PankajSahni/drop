@@ -13,6 +13,7 @@
 		043C22B21609F80100DDDDB9 /* ListFriendsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 043C22B11609F80100DDDDB9 /* ListFriendsCell.m */; };
 		044B1CB1160C8BDC00A56373 /* FBFriendsPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044B1CAF160C8BDC00A56373 /* FBFriendsPickerViewController.m */; };
 		044B1CB2160C8BDC00A56373 /* FBFriendsPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044B1CB0160C8BDC00A56373 /* FBFriendsPickerViewController.xib */; };
+		0451CFE21622DCC7001B231B /* FBFriendsPickerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451CFE11622DCC7001B231B /* FBFriendsPickerModel.m */; };
 		04848529160894C400DE1528 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04848528160894C300DE1528 /* UIKit.framework */; };
 		0484852B160894C400DE1528 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484852A160894C400DE1528 /* Foundation.framework */; };
 		0484852D160894C400DE1528 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484852C160894C400DE1528 /* CoreGraphics.framework */; };
@@ -26,6 +27,7 @@
 		0484854A1608955500DE1528 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 048485491608955500DE1528 /* libsqlite3.0.dylib */; };
 		0484854E16089E9A00DE1528 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0484854C16089E9A00DE1528 /* LoginViewController.m */; };
 		0484854F16089E9A00DE1528 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0484854D16089E9A00DE1528 /* LoginViewController.xib */; };
+		04B2A21D1624000D004CF030 /* GlobalSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B2A21C1624000D004CF030 /* GlobalSingleton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,8 @@
 		044B1CAE160C8BDC00A56373 /* FBFriendsPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FBFriendsPickerViewController.h; path = ../../FBFriendsPickerViewController.h; sourceTree = "<group>"; };
 		044B1CAF160C8BDC00A56373 /* FBFriendsPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FBFriendsPickerViewController.m; path = ../../FBFriendsPickerViewController.m; sourceTree = "<group>"; };
 		044B1CB0160C8BDC00A56373 /* FBFriendsPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FBFriendsPickerViewController.xib; path = ../../FBFriendsPickerViewController.xib; sourceTree = "<group>"; };
+		0451CFE01622DCC7001B231B /* FBFriendsPickerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBFriendsPickerModel.h; sourceTree = "<group>"; };
+		0451CFE11622DCC7001B231B /* FBFriendsPickerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBFriendsPickerModel.m; sourceTree = "<group>"; };
 		04848524160894C300DE1528 /* droptwo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = droptwo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04848528160894C300DE1528 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0484852A160894C400DE1528 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -58,6 +62,8 @@
 		0484854B16089E9A00DE1528 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = ../LoginViewController.h; sourceTree = "<group>"; };
 		0484854C16089E9A00DE1528 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = ../LoginViewController.m; sourceTree = "<group>"; };
 		0484854D16089E9A00DE1528 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LoginViewController.xib; path = ../LoginViewController.xib; sourceTree = "<group>"; };
+		04B2A21B1624000D004CF030 /* GlobalSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalSingleton.h; sourceTree = "<group>"; };
+		04B2A21C1624000D004CF030 /* GlobalSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalSingleton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +102,8 @@
 			children = (
 				0412B3D616118A1D008B36D4 /* ViewModel.h */,
 				0412B3D716118A1D008B36D4 /* ViewModel.m */,
+				0451CFE01622DCC7001B231B /* FBFriendsPickerModel.h */,
+				0451CFE11622DCC7001B231B /* FBFriendsPickerModel.m */,
 			);
 			path = m;
 			sourceTree = "<group>";
@@ -145,6 +153,8 @@
 			isa = PBXGroup;
 			children = (
 				040FE383161C6417004124A8 /* GlobalUtility.h */,
+				04B2A21B1624000D004CF030 /* GlobalSingleton.h */,
+				04B2A21C1624000D004CF030 /* GlobalSingleton.m */,
 				040FE384161C6417004124A8 /* GlobalUtility.m */,
 				04848537160894C400DE1528 /* AppDelegate.h */,
 				04848538160894C400DE1528 /* AppDelegate.m */,
@@ -241,6 +251,8 @@
 				044B1CB1160C8BDC00A56373 /* FBFriendsPickerViewController.m in Sources */,
 				0412B3D816118A1D008B36D4 /* ViewModel.m in Sources */,
 				040FE385161C6418004124A8 /* GlobalUtility.m in Sources */,
+				0451CFE21622DCC7001B231B /* FBFriendsPickerModel.m in Sources */,
+				04B2A21D1624000D004CF030 /* GlobalSingleton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

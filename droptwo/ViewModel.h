@@ -17,6 +17,6 @@
 
 @property (nonatomic, retain)id delegate_refresh_my_data;
 
--(void)inflate_arrays_invites_your_turn_their_turn_and_reload_tableview:(NSDictionary *)dictionary;
+-(void)arrayInflateInvitesYourturnTheirturnReloadRTableview:(NSDictionary *)dictionary;
 
 @end

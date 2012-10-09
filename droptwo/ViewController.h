@@ -9,11 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "ViewModel.h"
 #import "GlobalUtility.h"
+
 @interface ViewController : UIViewController<NSURLConnectionDelegate, UITableViewDataSource, UITableViewDelegate>
 {
     IBOutlet UITableView *mainTableView;
     ViewModel *viewModelObject;
     GlobalUtility *globalUtilityObject;
+
+
 
 }
 
@@ -22,7 +25,7 @@
 
 @property (nonatomic, retain) NSMutableArray *array_section_headers;
 @property (nonatomic, retain) NSMutableArray *array_rows_in_section;
-@property (nonatomic, retain) NSMutableArray *array_friends_already_invited;
+
 
 @property (nonatomic, assign) NSInteger int_sections_in_table;
 
