@@ -178,7 +178,9 @@ NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:S
 
 - (void)openSession
 {
-    [FBSession openActiveSessionWithPermissions:nil
+
+    NSArray *array_permissions = [[NSArray alloc] initWithObjects:@"user_photos",@"publish_stream", nil];
+    [FBSession openActiveSessionWithPermissions:array_permissions
                                    allowLoginUI:YES
                               completionHandler:
      ^(FBSession *session, 
@@ -203,7 +205,7 @@ NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:S
            NSDictionary<FBGraphUser> *user, 
            NSError *error) {
              if (!error) {
-                 [GlobalSingleton sharedManager].string_my_fb_id = user.id;
+                 [GlobalSingleton sharedManager].string_my_fb_id = (NSString *) user.id;
                  //NSLog(@"user_id%@",[GlobalSingleton sharedManager].string_my_fb_id);
                  NSString *string_update_user_id = @"user.php";
                  NSDictionary *dictionary_for_json_data = [[NSDictionary alloc] initWithObjectsAndKeys:

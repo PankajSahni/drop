@@ -127,6 +127,18 @@
         NSString *string_get_invites_your_turn_their_turn_from_server = @"invite_friend.php";
         NSDictionary *dictionary_response = [self.globalUtilityObject modelHitWebservice:(NSString *)string_get_invites_your_turn_their_turn_from_server with_json:jsonString];
         NSLog(@"response%@",dictionary_response);
+        
+        NSMutableDictionary  *postVariablesDictionary = [[NSMutableDictionary alloc] init];
+        // [postVariablesDictionary setObject:@"me" forKey:@"name"]; 
+        // [postVariablesDictionary setObject:self.image forKey:@"picture"];
+        [postVariablesDictionary setObject:@"Sample Text" forKey:@"message"];
+        [postVariablesDictionary setObject:[UIImage imageNamed:@"1.jpg"] forKey:@"source"];
+        NSLog(@"%@",string_invite_fb_name);
+        [FBRequestConnection startWithGraphPath:[NSString stringWithFormat:@"%@/feed",string_invite_fb_profile_id] parameters:postVariablesDictionary HTTPMethod:@"POST" completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+            NSLog(@"result %@",result);
+            NSLog(@"error %@",error);
+                    }];
+
 	}
 	else if (buttonIndex == 1)
 	{
