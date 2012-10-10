@@ -7,11 +7,15 @@
 //
 
 #import "ViewController.h"
-#import "AppDelegate.h"
 #import "ListFriendsCell.h"
+#import "GlobalUtility.h"
 #import "FBFriendsPickerViewController.h"
+
 @interface ViewController ()
+
 @property (readonly) ViewModel *viewModelObject; 
+@property (readonly) GlobalUtility *globalUtilityObject;
+
 @end
 
 @implementation ViewController
@@ -21,13 +25,19 @@
 @synthesize array_section_headers;
 @synthesize int_sections_in_table;
 @synthesize array_rows_in_section;
-@synthesize array_dictionary_in_current_section;
+
 - (ViewModel *) viewModelObject{
     if(!viewModelObject){
         viewModelObject = [[ViewModel alloc] init];
-        viewModelObject.delegate_refresh_my_data = self;
     }
     return viewModelObject;
+}
+- (GlobalUtility *) globalUtilityObject{
+    if(!globalUtilityObject){
+        globalUtilityObject = [[GlobalUtility alloc] init];
+        globalUtilityObject.delegate_refresh_my_data = self;
+    }
+    return globalUtilityObject;
 }
 
 - (void)refreshData
@@ -49,21 +59,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.viewModelObject modelGetDataFromWebServiceForSectionsInvitesYourturnTheirturn];
+    //NSLog(@"token:%@",FBSession.activeSession.accessToken); 
+    NSString *string_get_invites_your_turn_their_turn_from_server = @"json.php";
+    NSDictionary *dictionary_response = [self.globalUtilityObject modelHitWebservice:(NSString *)string_get_invites_your_turn_their_turn_from_server with_json:(NSString *)nil];
+    [self.viewModelObject arrayInflateInvitesYourturnTheirturnReloadRTableview:(NSDictionary *)dictionary_response];
+    
 }
 
-
-
-
-/*- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-   return 34.0;
-}*/
 - (void)viewDidUnload
 {
     [super viewDidUnload];
 
-    // Release any retained subviews of the main view.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -91,13 +97,13 @@
     int_sections_in_table = 0;
     array_section_headers = [[NSMutableArray alloc] init];
     array_rows_in_section = [[NSMutableArray alloc] init];
-    array_dictionary_in_current_section = [[NSMutableArray alloc] init];
+    
     if([self.viewModelObject.invites count] != 0)
     {
         int_sections_in_table += 1;
         [array_section_headers addObject:@"Game Invites"];
         [array_rows_in_section addObject:[NSString stringWithFormat:@"%d", [self.viewModelObject.invites count]]];
-        [array_dictionary_in_current_section addObject:self.viewModelObject.invites];
+        
 
     }
     if([self.viewModelObject.your_turn count] != 0)
@@ -105,14 +111,14 @@
         int_sections_in_table += 1;
         [array_section_headers addObject:@"Your Turn"];
         [array_rows_in_section addObject:[NSString stringWithFormat:@"%d", [self.viewModelObject.your_turn count]]];
-        [array_dictionary_in_current_section addObject:self.viewModelObject.your_turn];
+        
     }
     if([self.viewModelObject.their_turn count] != 0)
     {
         int_sections_in_table += 1;
         [array_section_headers addObject:@"Their Turn"];
         [array_rows_in_section addObject:[NSString stringWithFormat:@"%d", [self.viewModelObject.their_turn count]]];
-        [array_dictionary_in_current_section addObject:self.viewModelObject.their_turn];
+     
     }    
      return int_sections_in_table;
 
@@ -121,6 +127,8 @@
 {
     return [[array_rows_in_section objectAtIndex:section] integerValue];
 }
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ListFriendsCell *cell = (ListFriendsCell *)[tableView dequeueReusableCellWithIdentifier:@"cell"];
@@ -159,7 +167,7 @@
         cell.subtextTitle.text = @"Invitation Sent: ";
         cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"date"]];
         
-    }    
+    }
     return cell;
 }
 

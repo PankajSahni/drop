@@ -132,8 +132,14 @@
         // [postVariablesDictionary setObject:@"me" forKey:@"name"]; 
         // [postVariablesDictionary setObject:self.image forKey:@"picture"];
         [postVariablesDictionary setObject:@"Sample Text" forKey:@"message"];
-        [postVariablesDictionary setObject:[UIImage imageNamed:@"1.jpg"] forKey:@"source"];
-        NSLog(@"%@",string_invite_fb_name);
+        NSString *string_fb_app_logo_path = [[NSBundle mainBundle] pathForResource:@"1" ofType:@"jpg"];
+        UIImage *image_fb_app_logo = [[UIImage alloc]initWithContentsOfFile:string_fb_app_logo_path];
+NSString *temp = @"http://wp.appadvice.com/wp-content/uploads/2010/06/Rocket-Racing-LeagueLarge.jpg";
+        NSString *link = @"http://developers.facebook.com/docs/howtos/publish-to-feed-ios-sdk/";
+        [postVariablesDictionary setObject:temp forKey:@"source"];
+        [postVariablesDictionary setObject:link forKey:@"link"];
+        NSLog(@"postVariablesDictionary%@",postVariablesDictionary);
+        
         [FBRequestConnection startWithGraphPath:[NSString stringWithFormat:@"%@/feed",string_invite_fb_profile_id] parameters:postVariablesDictionary HTTPMethod:@"POST" completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
             NSLog(@"result %@",result);
             NSLog(@"error %@",error);
