@@ -20,12 +20,13 @@
 
 @implementation ViewController
 
-@synthesize userNameLabel;
-@synthesize userProfileImage;
+
 @synthesize array_section_headers;
 @synthesize int_sections_in_table;
 @synthesize array_rows_in_section;
-
+@synthesize uiview_table_header;
+@synthesize uiview_table_footer;
+@synthesize uiview_section_header;
 - (ViewModel *) viewModelObject{
     if(!viewModelObject){
         viewModelObject = [[ViewModel alloc] init];
@@ -60,9 +61,14 @@
 {
     [super viewDidLoad];
     //NSLog(@"token:%@",FBSession.activeSession.accessToken); 
+    self.view.backgroundColor = 
+    [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
     NSString *string_get_invites_your_turn_their_turn_from_server = @"json.php";
     NSDictionary *dictionary_response = [self.globalUtilityObject modelHitWebservice:(NSString *)string_get_invites_your_turn_their_turn_from_server with_json:(NSString *)nil];
     [self.viewModelObject arrayInflateInvitesYourturnTheirturnReloadRTableview:(NSDictionary *)dictionary_response];
+
+    mainTableView.tableHeaderView = uiview_table_header;
+    mainTableView.tableFooterView = uiview_table_footer;
     
 }
 
@@ -101,7 +107,7 @@
     if([self.viewModelObject.invites count] != 0)
     {
         int_sections_in_table += 1;
-        [array_section_headers addObject:@"Game Invites"];
+        [array_section_headers addObject:@"GameInvites.png"];
         [array_rows_in_section addObject:[NSString stringWithFormat:@"%d", [self.viewModelObject.invites count]]];
         
 
@@ -109,14 +115,14 @@
     if([self.viewModelObject.your_turn count] != 0)
     {
         int_sections_in_table += 1;
-        [array_section_headers addObject:@"Your Turn"];
+        [array_section_headers addObject:@"YourTurn.png"];
         [array_rows_in_section addObject:[NSString stringWithFormat:@"%d", [self.viewModelObject.your_turn count]]];
         
     }
     if([self.viewModelObject.their_turn count] != 0)
     {
         int_sections_in_table += 1;
-        [array_section_headers addObject:@"Their Turn"];
+        [array_section_headers addObject:@"YourTurn.png"];
         [array_rows_in_section addObject:[NSString stringWithFormat:@"%d", [self.viewModelObject.their_turn count]]];
      
     }    
@@ -137,7 +143,7 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"ListFriendsTableCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
-    if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"Game Invites"])
+    if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"GameInvites.png"])
        {
            
          NSDictionary *current_dictionary = [self.viewModelObject.invites objectAtIndex:indexPath.row];
@@ -148,7 +154,7 @@
            cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"date"]];
 
        }
-    if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"Your Turn"])
+    if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"YourTurn.png"])
     {
         NSDictionary *current_dictionary = [self.viewModelObject.your_turn objectAtIndex:indexPath.row];
         NSString *profile_id = (NSString*)[current_dictionary valueForKey:@"fb_profileId"];
@@ -158,7 +164,7 @@
         cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"date"]];
         
     }
-    if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"Their Invites"])
+    if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"TheirInvites.png"])
     {
         NSDictionary *current_dictionary = [self.viewModelObject.their_turn objectAtIndex:indexPath.row];
         NSString *profile_id = (NSString*)[current_dictionary valueForKey:@"fb_profileId"];
@@ -169,6 +175,22 @@
         
     }
     return cell;
+}
+- (UIView *) imageForSectionHeader:(NSInteger)integer_section
+{
+    uiview_section_header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+    uiview_section_header.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
+    NSString *string_image_name = [array_section_headers objectAtIndex:integer_section];
+    UIImage *image_active_section = [UIImage imageNamed:string_image_name];
+    UIImageView *image_section_header = [[UIImageView alloc] initWithImage:image_active_section];
+    [uiview_section_header addSubview:image_section_header];
+    return uiview_section_header;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSLog(@"aactibe view %@",[self imageForSectionHeader:section]);
+    return [self imageForSectionHeader:section];
 }
 
 @end

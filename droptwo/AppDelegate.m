@@ -42,19 +42,15 @@ NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:S
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+
     
     [FBProfilePictureView class];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    /*self.viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
-    self.window.rootViewController = self.viewController;
-     [self.window makeKeyAndVisible];*/
     self.viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
     self.navController = [[UINavigationController alloc] initWithRootViewController:self.viewController];
     self.window.rootViewController = self.navController;
     
     [self.window makeKeyAndVisible];
-    // See if we have a valid token for the current state.
     if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
         [self openSession];
         [self updateMyUserIdOnServer];
