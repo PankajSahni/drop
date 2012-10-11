@@ -209,7 +209,7 @@ NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:S
                  //NSLog(@"user_id%@",[GlobalSingleton sharedManager].string_my_fb_id);
                  NSString *string_update_user_id = @"user.php";
                  NSDictionary *dictionary_for_json_data = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                                           user.id,@"fb_profileid",user.name,@"name", nil];
+                                                           user.id,@"fb_id",user.name,@"name", nil];
                  NSError *error = nil;
                  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary_for_json_data options:0 error:&error];
                  NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];

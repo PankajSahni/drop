@@ -13,5 +13,5 @@
 @property (nonatomic, retain)id delegate_refresh_my_data;
 
 -(NSDictionary *)modelHitWebservice:(NSString *)web_url with_json:(NSString *)json_data;
-
+-(void)facebookPost:(NSDictionary *)dictionary_to_post ToFBFriend:(NSString *)string_fb_id;
 @end

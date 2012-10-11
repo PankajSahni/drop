@@ -115,7 +115,7 @@
 {
 	if (buttonIndex == 0)
 	{
-		NSLog(@"yes");
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         NSString *invited_by = [GlobalSingleton sharedManager].string_my_fb_id;
         NSDictionary *dictionary_invite_fb_id = 
         [[NSDictionary alloc]initWithObjectsAndKeys:string_invite_fb_profile_id,@"fb_id",
@@ -123,28 +123,18 @@
         NSError *error = nil;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary_invite_fb_id options:0 error:&error];
         NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        //[dictionary_invite_fb_id 
         NSString *string_get_invites_your_turn_their_turn_from_server = @"invite_friend.php";
-        NSDictionary *dictionary_response = [self.globalUtilityObject modelHitWebservice:(NSString *)string_get_invites_your_turn_their_turn_from_server with_json:jsonString];
-        NSLog(@"response%@",dictionary_response);
+   [self.globalUtilityObject modelHitWebservice:(NSString *)string_get_invites_your_turn_their_turn_from_server with_json:jsonString];
         
-        NSMutableDictionary  *postVariablesDictionary = [[NSMutableDictionary alloc] init];
-        // [postVariablesDictionary setObject:@"me" forKey:@"name"]; 
-        // [postVariablesDictionary setObject:self.image forKey:@"picture"];
-        [postVariablesDictionary setObject:@"Sample Text" forKey:@"message"];
-        NSString *string_fb_app_logo_path = [[NSBundle mainBundle] pathForResource:@"1" ofType:@"jpg"];
-        UIImage *image_fb_app_logo = [[UIImage alloc]initWithContentsOfFile:string_fb_app_logo_path];
-NSString *temp = @"http://wp.appadvice.com/wp-content/uploads/2010/06/Rocket-Racing-LeagueLarge.jpg";
-        NSString *link = @"http://developers.facebook.com/docs/howtos/publish-to-feed-ios-sdk/";
-        [postVariablesDictionary setObject:temp forKey:@"source"];
-        [postVariablesDictionary setObject:link forKey:@"link"];
-        NSLog(@"postVariablesDictionary%@",postVariablesDictionary);
-        
-        [FBRequestConnection startWithGraphPath:[NSString stringWithFormat:@"%@/feed",string_invite_fb_profile_id] parameters:postVariablesDictionary HTTPMethod:@"POST" completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-            NSLog(@"result %@",result);
-            NSLog(@"error %@",error);
-                    }];
-
+        NSMutableDictionary  *dictionary_to_post = [[NSMutableDictionary alloc] init];        
+        NSString *string_app_logo_link = @"http://wp.appadvice.com/wp-content/uploads/2010/06/Rocket-Racing-LeagueLarge.jpg";
+        NSString *string_app_itunes_link = @"http://developers.facebook.com/docs/howtos/publish-to-feed-ios-sdk/";
+        NSString *string_app_fb_message = @"Sample Text 123";
+        [dictionary_to_post setObject:string_app_fb_message forKey:@"message"];
+        [dictionary_to_post setObject:string_app_logo_link forKey:@"source"];
+        [dictionary_to_post setObject:string_app_itunes_link forKey:@"link"];
+        [self.globalUtilityObject facebookPost:(NSDictionary *)dictionary_to_post ToFBFriend:(NSString *)string_invite_fb_profile_id];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	}
 	else if (buttonIndex == 1)
 	{
