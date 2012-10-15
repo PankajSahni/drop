@@ -50,6 +50,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //self.view.backgroundColor = 
+    //[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
+    
     [[GlobalSingleton sharedManager]array_friends_already_invited];
     array_fb_friends_not_playing_with_me = [[NSMutableArray alloc]init ];
     array_fb_friends_not_playing_with_me = [self.fBFriendsPickerModelObject 
@@ -80,6 +83,10 @@
     {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"ListFriendsTableCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
+        cell.contentView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"cellInner_background.png"]];
+        cell.imageview_bottom_line.image = [UIImage imageNamed:@"cellInner_line.png"];
+        cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+        
     }
     NSArray *array_profile_id_and_name = [array_fb_friends_not_playing_with_me objectAtIndex: indexPath.row];
         NSString *profile_id = [array_profile_id_and_name objectAtIndex:0];

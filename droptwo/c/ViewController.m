@@ -69,6 +69,7 @@
 
     mainTableView.tableHeaderView = uiview_table_header;
     mainTableView.tableFooterView = uiview_table_footer;
+     
     
 }
 
@@ -107,7 +108,7 @@
     if([self.viewModelObject.invites count] != 0)
     {
         int_sections_in_table += 1;
-        [array_section_headers addObject:@"GameInvites.png"];
+        [array_section_headers addObject:@"game_invite.png"];
         [array_rows_in_section addObject:[NSString stringWithFormat:@"%d", [self.viewModelObject.invites count]]];
         
 
@@ -115,14 +116,14 @@
     if([self.viewModelObject.your_turn count] != 0)
     {
         int_sections_in_table += 1;
-        [array_section_headers addObject:@"YourTurn.png"];
+        [array_section_headers addObject:@"your_turn.png"];
         [array_rows_in_section addObject:[NSString stringWithFormat:@"%d", [self.viewModelObject.your_turn count]]];
         
     }
     if([self.viewModelObject.their_turn count] != 0)
     {
         int_sections_in_table += 1;
-        [array_section_headers addObject:@"YourTurn.png"];
+        [array_section_headers addObject:@"their_turn.png"];
         [array_rows_in_section addObject:[NSString stringWithFormat:@"%d", [self.viewModelObject.their_turn count]]];
      
     }    
@@ -142,8 +143,12 @@
     {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"ListFriendsTableCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
+        cell.contentView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"cellInner_background.png"]];
+        cell.imageview_bottom_line.image = [UIImage imageNamed:@"cellInner_line.png"];
+       cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+
     }
-    if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"GameInvites.png"])
+    if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"game_invite.png"])
        {
            
          NSDictionary *current_dictionary = [self.viewModelObject.invites objectAtIndex:indexPath.row];
@@ -151,45 +156,49 @@
            cell.thumbImage.profileID = profile_id;
            cell.mainText.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"name"]];
            cell.subtextTitle.text = @"Invitation Sent: ";
-           cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"date"]];
+          cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"date"]];
+           
+
 
        }
-    if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"YourTurn.png"])
+    if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"your_turn.png"])
     {
         NSDictionary *current_dictionary = [self.viewModelObject.your_turn objectAtIndex:indexPath.row];
         NSString *profile_id = (NSString*)[current_dictionary valueForKey:@"fb_profileId"];
         cell.thumbImage.profileID = profile_id;
         cell.mainText.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"name"]];
         cell.subtextTitle.text = @"Invitation Sent: ";
-        cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"date"]];
+        //cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"date"]];
         
     }
-    if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"TheirInvites.png"])
+    if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"their_turn.png"])
     {
         NSDictionary *current_dictionary = [self.viewModelObject.their_turn objectAtIndex:indexPath.row];
         NSString *profile_id = (NSString*)[current_dictionary valueForKey:@"fb_profileId"];
         cell.thumbImage.profileID = profile_id;
         cell.mainText.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"name"]];
         cell.subtextTitle.text = @"Invitation Sent: ";
-        cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"date"]];
+        //cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"date"]];
         
     }
     return cell;
 }
 - (UIView *) imageForSectionHeader:(NSInteger)integer_section
 {
-    uiview_section_header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+    uiview_section_header = [[UIView alloc] initWithFrame:CGRectMake(0, 110, 110, 5)];
     uiview_section_header.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
     NSString *string_image_name = [array_section_headers objectAtIndex:integer_section];
     UIImage *image_active_section = [UIImage imageNamed:string_image_name];
-    UIImageView *image_section_header = [[UIImageView alloc] initWithImage:image_active_section];
-    [uiview_section_header addSubview:image_section_header];
+    UIImageView *imageview_section_header = [[UIImageView alloc] initWithImage:image_active_section];
+    //imageview_section_header.frame = CGRectMake(0,0,image_active_section.size.width,image_active_section.size.height);
+    imageview_section_header.frame = CGRectMake(23,0,400,38);
+    [uiview_section_header addSubview:imageview_section_header];
     return uiview_section_header;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    NSLog(@"aactibe view %@",[self imageForSectionHeader:section]);
+    
     return [self imageForSectionHeader:section];
 }
 
