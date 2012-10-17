@@ -93,7 +93,6 @@
         NSString *name = [array_profile_id_and_name objectAtIndex:1];
         cell.thumbImage.profileID = profile_id;
         cell.mainText.text = name;
-        cell.subtextTitle.text = @"";
         cell.subtextValue.text = @""; 
 
     return cell;

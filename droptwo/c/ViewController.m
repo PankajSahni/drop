@@ -27,11 +27,10 @@
 @synthesize uiview_table_header;
 @synthesize uiview_table_footer;
 @synthesize uiview_section_header;
+@synthesize spinner;
 - (ViewModel *) viewModelObject{
     if(!viewModelObject){
         viewModelObject = [[ViewModel alloc] init];
-        NSLog(@"viewModelObject : %@", viewModelObject);
-        
         viewModelObject.delegate = self;
 
     }
@@ -56,10 +55,9 @@
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary_for_json_data options:0 error:&error];
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     //
-    NSDictionary *reponse = [self.globalUtilityObject modelHitWebservice:(NSString *)string_get_invites_your_turn_their_turn_from_server with_json:(NSString *)jsonString];
-    NSLog(@"JSON Output: %@", reponse);
-    [mainTableView reloadData];
-    
+    NSDictionary *dictionary_response = [self.globalUtilityObject modelHitWebservice:(NSString *)string_get_invites_your_turn_their_turn_from_server with_json:(NSString *)jsonString];
+    [self.viewModelObject arrayInflateInvitesYourturnTheirturnReloadRTableview:(NSDictionary *)dictionary_response];
+    [spinner stopAnimating];
     [self updateMyUserIdOnServer];
     
     
@@ -83,8 +81,7 @@
 {
     [super viewDidLoad];
     
-    
-    //NSLog(@"token:%@",FBSession.activeSession.accessToken); 
+    [spinner startAnimating];
     self.view.backgroundColor = 
     [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
     mainTableView.tableHeaderView = uiview_table_header;
@@ -173,11 +170,10 @@
        {
            
          NSDictionary *current_dictionary = [self.viewModelObject.invites objectAtIndex:indexPath.row];
-           NSString *profile_id = (NSString*)[current_dictionary valueForKey:@"fb_profileId"];
+           NSString *profile_id = (NSString*)[current_dictionary valueForKey:@"id"];
            cell.thumbImage.profileID = profile_id;
            cell.mainText.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"name"]];
-           cell.subtextTitle.text = @"Invitation Sent: ";
-          cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"date"]];
+          cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"time"]];
            
 
 
@@ -185,21 +181,19 @@
     if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"your_turn.png"])
     {
         NSDictionary *current_dictionary = [self.viewModelObject.your_turn objectAtIndex:indexPath.row];
-        NSString *profile_id = (NSString*)[current_dictionary valueForKey:@"fb_profileId"];
+        NSString *profile_id = (NSString*)[current_dictionary valueForKey:@"id"];
         cell.thumbImage.profileID = profile_id;
         cell.mainText.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"name"]];
-        cell.subtextTitle.text = @"Invitation Sent: ";
-        //cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"date"]];
+        cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"time"]];
         
     }
     if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"their_turn.png"])
     {
         NSDictionary *current_dictionary = [self.viewModelObject.their_turn objectAtIndex:indexPath.row];
-        NSString *profile_id = (NSString*)[current_dictionary valueForKey:@"fb_profileId"];
+        NSString *profile_id = (NSString*)[current_dictionary valueForKey:@"id"];
         cell.thumbImage.profileID = profile_id;
         cell.mainText.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"name"]];
-        cell.subtextTitle.text = @"Invitation Sent: ";
-        //cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"date"]];
+        cell.subtextValue.text = [NSString stringWithFormat:@"%@",[current_dictionary valueForKey:@"time"]];
         
     }
     return cell;
@@ -210,8 +204,7 @@
     uiview_section_header.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
     NSString *string_image_name = [array_section_headers objectAtIndex:integer_section];
     UIImage *image_active_section = [UIImage imageNamed:string_image_name];
-    UIImageView *imageview_section_header = [[UIImageView alloc] initWithImage:image_active_section];
-    //imageview_section_header.frame = CGRectMake(0,0,image_active_section.size.width,image_active_section.size.height);
+UIImageView *imageview_section_header = [[UIImageView alloc] initWithImage:image_active_section];
     imageview_section_header.frame = CGRectMake(23,0,400,38);
     [uiview_section_header addSubview:imageview_section_header];
     return uiview_section_header;

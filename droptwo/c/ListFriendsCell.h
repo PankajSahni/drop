@@ -10,7 +10,6 @@
 
 @interface ListFriendsCell : UITableViewCell
 @property (nonatomic, strong) IBOutlet UILabel *mainText;
-@property (nonatomic, strong) IBOutlet UILabel *subtextTitle;
 @property (nonatomic, strong) IBOutlet UILabel *subtextValue;
 @property (nonatomic, strong) IBOutlet UIImageView *imageview_bottom_line;
 //@property (strong, nonatomic) IBOutlet ListFriendsCell *customCell;

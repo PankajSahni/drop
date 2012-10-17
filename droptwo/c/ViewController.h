@@ -27,6 +27,7 @@
 @property (nonatomic, retain)IBOutlet UIView *uiview_table_header;
 @property (nonatomic, retain)IBOutlet UIView *uiview_table_footer;
 @property (nonatomic, retain)IBOutlet UIView *uiview_section_header;
+@property (nonatomic, retain)IBOutlet UIActivityIndicatorView *spinner;
 
 - (ViewModel *) viewModelObject;
 

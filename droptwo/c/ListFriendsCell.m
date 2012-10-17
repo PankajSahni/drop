@@ -10,7 +10,6 @@
 
 @implementation ListFriendsCell
 @synthesize mainText;// = _mainText;
-@synthesize subtextTitle;// = _subtextTitle;
 @synthesize thumbImage;// = _thumbImage;
 @synthesize subtextValue;// = _subtextValue;
 @synthesize imageview_bottom_line;
