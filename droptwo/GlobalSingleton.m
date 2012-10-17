@@ -11,6 +11,7 @@
 @implementation GlobalSingleton
 @synthesize array_friends_already_invited;
 @synthesize string_my_fb_id;
+@synthesize string_my_fb_name;
 static GlobalSingleton *sharedManager; // self
 
 //- (void)dealloc 

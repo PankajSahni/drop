@@ -10,7 +10,7 @@
 #import "ViewModel.h"
 #import "GlobalUtility.h"
 
-@interface ViewController : UIViewController<NSURLConnectionDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface ViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, delegateLoadTableData>
 {
     IBOutlet UITableView *mainTableView;
     ViewModel *viewModelObject;
@@ -18,9 +18,6 @@
     UIView *uiview_table_header;
     UIView *uiview_table_footer;
     UIView *uiview_section_header;
-
-
-
 }
 
 
@@ -31,10 +28,12 @@
 @property (nonatomic, retain)IBOutlet UIView *uiview_table_footer;
 @property (nonatomic, retain)IBOutlet UIView *uiview_section_header;
 
-
+- (ViewModel *) viewModelObject;
 
 - (void)refreshData;
+
 -(IBAction)logout:(UIButton *)sender;
 -(IBAction)inviteFriends:(UIButton *)sender;
+- (void)updateMyUserIdOnServer;
 
 @end

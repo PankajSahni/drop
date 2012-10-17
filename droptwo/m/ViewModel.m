@@ -13,7 +13,7 @@
 @synthesize your_turn;
 @synthesize their_turn;
 @synthesize invites;
-@synthesize delegate_refresh_my_data;
+@synthesize delegate;
 
 
 /*
@@ -52,8 +52,28 @@
     }
     [GlobalSingleton sharedManager].array_friends_already_invited = array_friends_already_invited;
     //NSLog(@"array_friends_already_invited%@",[GlobalSingleton sharedManager].array_friends_already_invited);
-    [(ViewController*)delegate_refresh_my_data refreshData];
+    [(ViewController*)delegate refreshData];
 }
 
+- (void)updateMyUserIdInTheAppSingleton 
+{
+    NSLog(@"self : %@", self);
+    if (FBSession.activeSession.isOpen) {
+        [[FBRequest requestForMe] startWithCompletionHandler:
+         ^(FBRequestConnection *connection, 
+           NSDictionary<FBGraphUser> *user, 
+           NSError *error) {
+             if (!error) {
+                 [GlobalSingleton sharedManager].string_my_fb_id = (NSString *) user.id;
+                 [GlobalSingleton sharedManager].string_my_fb_name = (NSString *) user.name;
+                 NSLog(@"user_id%@",[GlobalSingleton sharedManager].string_my_fb_id);
 
+                     //send the delegate function with the amount entered by the user
+                 [delegate loadTableData];
+
+                 //[(ViewController*)delegate_refresh_my_data loadTableData];       
+             }
+         }];      
+    }
+}
 @end

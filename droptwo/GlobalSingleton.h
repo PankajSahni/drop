@@ -12,4 +12,5 @@
 + (GlobalSingleton *)sharedManager;
 @property (nonatomic, retain) NSMutableArray *array_friends_already_invited;
 @property (nonatomic, retain) NSString *string_my_fb_id;
+@property (nonatomic, retain) NSString *string_my_fb_name;
 @end

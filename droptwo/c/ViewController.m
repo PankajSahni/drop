@@ -10,7 +10,7 @@
 #import "ListFriendsCell.h"
 #import "GlobalUtility.h"
 #import "FBFriendsPickerViewController.h"
-
+#import "GlobalSingleton.h"
 @interface ViewController ()
 
 @property (readonly) ViewModel *viewModelObject; 
@@ -30,6 +30,10 @@
 - (ViewModel *) viewModelObject{
     if(!viewModelObject){
         viewModelObject = [[ViewModel alloc] init];
+        NSLog(@"viewModelObject : %@", viewModelObject);
+        
+        viewModelObject.delegate = self;
+
     }
     return viewModelObject;
 }
@@ -41,11 +45,29 @@
     return globalUtilityObject;
 }
 
+- (void)loadTableData
+{
+   
+    NSString *string_get_invites_your_turn_their_turn_from_server = @"all_data.php";
+    NSString *string_my_fb_id = [GlobalSingleton sharedManager].string_my_fb_id;
+    NSDictionary *dictionary_for_json_data = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                              string_my_fb_id,@"fb_id", nil];
+    NSError *error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary_for_json_data options:0 error:&error];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    //
+    NSDictionary *reponse = [self.globalUtilityObject modelHitWebservice:(NSString *)string_get_invites_your_turn_their_turn_from_server with_json:(NSString *)jsonString];
+    NSLog(@"JSON Output: %@", reponse);
+    [mainTableView reloadData];
+    
+    [self updateMyUserIdOnServer];
+    
+    
+}
 - (void)refreshData
 {
     [mainTableView reloadData];
 }
-
 -(IBAction)logout:(UIButton *)sender 
 {
     [FBSession.activeSession closeAndClearTokenInformation];
@@ -60,15 +82,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
     //NSLog(@"token:%@",FBSession.activeSession.accessToken); 
     self.view.backgroundColor = 
     [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
-    NSString *string_get_invites_your_turn_their_turn_from_server = @"json.php";
-    NSDictionary *dictionary_response = [self.globalUtilityObject modelHitWebservice:(NSString *)string_get_invites_your_turn_their_turn_from_server with_json:(NSString *)nil];
-    [self.viewModelObject arrayInflateInvitesYourturnTheirturnReloadRTableview:(NSDictionary *)dictionary_response];
-
     mainTableView.tableHeaderView = uiview_table_header;
     mainTableView.tableFooterView = uiview_table_footer;
+    
      
     
 }
@@ -201,5 +222,17 @@
     
     return [self imageForSectionHeader:section];
 }
-
+- (void)updateMyUserIdOnServer 
+{
+    NSString *string_my_fb_id = [GlobalSingleton sharedManager].string_my_fb_id;
+    NSString *string_my_fb_name = [GlobalSingleton sharedManager].string_my_fb_name;
+    NSString *string_update_user_id = @"user.php";
+    NSDictionary *dictionary_for_json_data = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                            string_my_fb_id,@"fb_id",string_my_fb_name,@"name", nil];
+    NSError *error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary_for_json_data options:0 error:&error];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    //NSLog(@"JSON Output: %@", jsonString);
+    [self.globalUtilityObject modelHitWebservice:(NSString *)string_update_user_id with_json:(NSString *)jsonString];
+}
 @end
