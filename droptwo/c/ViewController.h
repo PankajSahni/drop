@@ -9,12 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "ViewModel.h"
 #import "GlobalUtility.h"
-
+#import "GameViewController.h"
 @interface ViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, delegateLoadTableData>
 {
     IBOutlet UITableView *mainTableView;
     ViewModel *viewModelObject;
     GlobalUtility *globalUtilityObject;
+    GameViewController *gameViewControllerObject;
     UIView *uiview_table_header;
     UIView *uiview_table_footer;
     UIView *uiview_section_header;

@@ -11,11 +11,11 @@
 #import "GlobalUtility.h"
 #import "FBFriendsPickerViewController.h"
 #import "GlobalSingleton.h"
+#import "GameViewController.h"
 @interface ViewController ()
 
 @property (readonly) ViewModel *viewModelObject; 
 @property (readonly) GlobalUtility *globalUtilityObject;
-
 @end
 
 @implementation ViewController
@@ -56,6 +56,7 @@
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     //
     NSDictionary *dictionary_response = [self.globalUtilityObject modelHitWebservice:(NSString *)string_get_invites_your_turn_their_turn_from_server with_json:(NSString *)jsonString];
+    //NSLog(@"dictionary_response%@",dictionary_response);
     [self.viewModelObject arrayInflateInvitesYourturnTheirturnReloadRTableview:(NSDictionary *)dictionary_response];
     [spinner stopAnimating];
     [self updateMyUserIdOnServer];
@@ -80,6 +81,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
+    GameViewController *_viewCntrl =[[GameViewController alloc]init];
+    [self.navigationController pushViewController:_viewCntrl animated:YES];
+    
     
     [spinner startAnimating];
     self.view.backgroundColor = 
@@ -215,6 +221,34 @@ UIImageView *imageview_section_header = [[UIImageView alloc] initWithImage:image
     
     return [self imageForSectionHeader:section];
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+
+    NSDictionary *current_dictionary = [[NSDictionary alloc]init];
+    if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"game_invite.png"])
+    {
+        
+    current_dictionary = [self.viewModelObject.invites objectAtIndex:indexPath.row];
+    }
+    if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"your_turn.png"])
+    {
+    current_dictionary = [self.viewModelObject.your_turn objectAtIndex:indexPath.row];
+        
+    }
+    if([[array_section_headers objectAtIndex:indexPath.section] isEqualToString:@"their_turn.png"])
+    {
+    current_dictionary = [self.viewModelObject.their_turn objectAtIndex:indexPath.row];
+        
+    }
+    //NSLog(@"id%@",[current_dictionary valueForKey:@"id"]);
+    GameViewController *_viewCntrl =[[GameViewController alloc]init];
+    [self.navigationController pushViewController:_viewCntrl animated:YES];
+
+    
+}
+
+
 - (void)updateMyUserIdOnServer 
 {
     NSString *string_my_fb_id = [GlobalSingleton sharedManager].string_my_fb_id;
