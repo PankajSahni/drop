@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0451CFE21622DCC7001B231B /* FBFriendsPickerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451CFE11622DCC7001B231B /* FBFriendsPickerModel.m */; };
+		047538D9163580B100BCBF69 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047538D7163580B100BCBF69 /* GameViewController.m */; };
+		047538DE163580DB00BCBF69 /* GameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 047538DD163580DB00BCBF69 /* GameModel.m */; };
+		047538E01635812900BCBF69 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047538DF1635812900BCBF69 /* GameViewController.xib */; };
 		048441921625945400155E35 /* ListFriendsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0484418D1625945300155E35 /* ListFriendsCell.m */; };
 		048441931625945400155E35 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0484418F1625945400155E35 /* LoginViewController.m */; };
 		048441941625945400155E35 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048441911625945400155E35 /* ViewController.m */; };
@@ -54,6 +57,11 @@
 /* Begin PBXFileReference section */
 		0451CFE01622DCC7001B231B /* FBFriendsPickerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBFriendsPickerModel.h; sourceTree = "<group>"; };
 		0451CFE11622DCC7001B231B /* FBFriendsPickerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBFriendsPickerModel.m; sourceTree = "<group>"; };
+		047538D6163580B100BCBF69 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		047538D7163580B100BCBF69 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		047538DC163580DB00BCBF69 /* GameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameModel.h; sourceTree = "<group>"; };
+		047538DD163580DB00BCBF69 /* GameModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameModel.m; sourceTree = "<group>"; };
+		047538DF1635812900BCBF69 /* GameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameViewController.xib; sourceTree = "<group>"; };
 		0484418C1625945300155E35 /* ListFriendsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListFriendsCell.h; sourceTree = "<group>"; };
 		0484418D1625945300155E35 /* ListFriendsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListFriendsCell.m; sourceTree = "<group>"; };
 		0484418E1625945300155E35 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -134,6 +142,8 @@
 				0484418F1625945400155E35 /* LoginViewController.m */,
 				048441901625945400155E35 /* ViewController.h */,
 				048441911625945400155E35 /* ViewController.m */,
+				047538D6163580B100BCBF69 /* GameViewController.h */,
+				047538D7163580B100BCBF69 /* GameViewController.m */,
 			);
 			path = c;
 			sourceTree = "<group>";
@@ -145,6 +155,8 @@
 				048441961625947300155E35 /* ViewModel.m */,
 				0451CFE01622DCC7001B231B /* FBFriendsPickerModel.h */,
 				0451CFE11622DCC7001B231B /* FBFriendsPickerModel.m */,
+				047538DC163580DB00BCBF69 /* GameModel.h */,
+				047538DD163580DB00BCBF69 /* GameModel.m */,
 			);
 			path = m;
 			sourceTree = "<group>";
@@ -152,6 +164,7 @@
 		0412B3D4161180D7008B36D4 /* v */ = {
 			isa = PBXGroup;
 			children = (
+				047538DF1635812900BCBF69 /* GameViewController.xib */,
 				0484419D1625957900155E35 /* FBFriendsPickerViewController.xib */,
 				0484419E1625957900155E35 /* ListFriendsTableCell.xib */,
 				0484419F1625957900155E35 /* LoginViewController.xib */,
@@ -324,6 +337,7 @@
 				04F9587B162C05560033803A /* friends_list_without_pattern.png in Resources */,
 				04F9587C162C05560033803A /* signout 2.png in Resources */,
 				04F9587D162C05560033803A /* start_game 2.png in Resources */,
+				047538E01635812900BCBF69 /* GameViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +358,8 @@
 				0484419C162594FC00155E35 /* GlobalUtility.m in Sources */,
 				048441A51625A34500155E35 /* FBFriendsPickerViewController.m in Sources */,
 				048441AA1625ABA700155E35 /* main.m in Sources */,
+				047538D9163580B100BCBF69 /* GameViewController.m in Sources */,
+				047538DE163580DB00BCBF69 /* GameModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
