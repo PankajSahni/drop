@@ -54,10 +54,10 @@
 }
 - (void)createGameInterface
 {
-    [self createGameBackgroundTopBottomMargin:(int)20];
+    [self createGameBackgroundTopBottomMargin:(int)20 WithRows:(int)7 AndColumns:(int)6];
 }
 
-- (void)createGameBackgroundTopBottomMargin:(int)int_top_bottom_margin
+- (void)createGameBackgroundTopBottomMargin:(int)int_top_bottom_margin WithRows:(int)rows AndColumns:(int)columns
 {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat int_screen_width = (int)screenRect.size.width;
@@ -71,7 +71,6 @@
     int int_game_background_width = int_screen_width;
     int int_game_background_x = 0; 
     int int_game_background_y = int_leave_percent_height;
-    //NSLog(@"width %lf",int_leave_percent_height);
     CGRect frame_view_game_background = CGRectMake(int_game_background_x,int_game_background_y,int_game_background_width,int_game_background_height);
     view_game_background = [[UIView alloc] initWithFrame:frame_view_game_background];
     view_game_background.backgroundColor = [UIColor redColor];
@@ -88,30 +87,26 @@
     view_game_yellow_board = [[UIView alloc] initWithFrame:frame_view_game_yellow_board];
     view_game_yellow_board.backgroundColor = [UIColor yellowColor];
     [self.view addSubview:view_game_yellow_board];
-    
-    int int_ball_container_x_static = int_yellow_background_x + 5;
-    int int_ball_container_y_static = int_yellow_background_y + 5;
-    int int_ball_container_x = int_ball_container_x_static;
-    int int_ball_container_y = int_ball_container_y_static;
-    int int_ball_width = 10;
-    int int_ball_height = 10;
-    int int_ball_width_x_margin = 20;
-    int int_ball_width_y_margin = 20;
+    int int_ball_width = (int_yellow_background_width*65)/(rows*100);
+    int int_ball_height = (int_yellow_background_height*65)/(columns*100);
+    int int_ball_width_x_margin = (int_yellow_background_width*32)/(rows*100);
+    int int_ball_width_y_margin = (int_yellow_background_height*30)/(columns*100);
+    int int_ball_container_x = int_yellow_background_x + int_ball_width_x_margin;
+    int int_ball_container_y = int_yellow_background_y + int_ball_width_y_margin;
     int int_loop_started = 0;
-    int int_start_with_y = int_ball_container_y + int_ball_height + int_ball_width_y_margin;
-    for (int int_horizontal = 0; int_horizontal < 3; int_horizontal = int_horizontal + 1) {
+    int int_start_with_y = int_ball_container_y;
+for (int int_horizontal = 1; int_horizontal <= rows; int_horizontal = int_horizontal + 1) {
+    if(int_horizontal != 1){
         int_ball_container_x = int_ball_container_x + int_ball_width + int_ball_width_x_margin;
-        
+    }
         int_ball_container_y = int_start_with_y;
-        for (int int_vetrical = 0; int_vetrical < 2; int_vetrical = int_vetrical + 1) {
-            if(int_loop_started == int_ball_container_x && int_vetrical != 0){
-            int_ball_container_y = int_ball_container_y + int_ball_height + int_ball_width_y_margin;
-            
+        for (int int_vetrical = 1; int_vetrical <= columns; int_vetrical = int_vetrical + 1) {
+            if(int_loop_started == int_ball_container_x && int_vetrical != 1){
+            int_ball_container_y = int_ball_container_y + int_ball_height + int_ball_width_y_margin;  
         }
-            NSLog(@"int_ball_container_x %d",int_ball_container_x);
-            NSLog(@"int_ball_container_y %d",int_ball_container_y);
             CGRect frame_ball_container = 
             CGRectMake(int_ball_container_x, int_ball_container_y,int_ball_width,int_ball_height);
+            //NSLog(@"My view frame: %@", NSStringFromCGRect(frame_ball_container));
             UIView *view_ball_container = [[UIView alloc] initWithFrame:frame_ball_container];
             view_ball_container.backgroundColor = [UIColor blueColor];
             [self.view addSubview:view_ball_container];  
