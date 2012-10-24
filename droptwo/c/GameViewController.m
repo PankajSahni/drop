@@ -29,7 +29,14 @@
     
 
     [super viewDidLoad];
+    
     NSLog(@"reached");
+    NSMutableArray *dataArray = [[NSMutableArray alloc] initWithCapacity: 3];
+    
+    [dataArray insertObject:[NSMutableArray arrayWithObjects:@"0",@"0",@"0",nil] atIndex:0];
+    [dataArray insertObject:[NSMutableArray arrayWithObjects:@"0",@"0",@"0",nil] atIndex:1];
+    [dataArray insertObject:[NSMutableArray arrayWithObjects:@"0",@"0",@"0",nil] atIndex:2];
+    //NSLog(@"array %@",dataArray);
     [self createGameInterface];
     
 }
@@ -81,5 +88,37 @@
     view_game_yellow_board = [[UIView alloc] initWithFrame:frame_view_game_yellow_board];
     view_game_yellow_board.backgroundColor = [UIColor yellowColor];
     [self.view addSubview:view_game_yellow_board];
+    
+    int int_ball_container_x_static = int_yellow_background_x + 5;
+    int int_ball_container_y_static = int_yellow_background_y + 5;
+    int int_ball_container_x = int_ball_container_x_static;
+    int int_ball_container_y = int_ball_container_y_static;
+    int int_ball_width = 10;
+    int int_ball_height = 10;
+    int int_ball_width_x_margin = 20;
+    int int_ball_width_y_margin = 20;
+    int int_loop_started = 0;
+    int int_start_with_y = int_ball_container_y + int_ball_height + int_ball_width_y_margin;
+    for (int int_horizontal = 0; int_horizontal < 3; int_horizontal = int_horizontal + 1) {
+        int_ball_container_x = int_ball_container_x + int_ball_width + int_ball_width_x_margin;
+        
+        int_ball_container_y = int_start_with_y;
+        for (int int_vetrical = 0; int_vetrical < 2; int_vetrical = int_vetrical + 1) {
+            if(int_loop_started == int_ball_container_x && int_vetrical != 0){
+            int_ball_container_y = int_ball_container_y + int_ball_height + int_ball_width_y_margin;
+            
+        }
+            NSLog(@"int_ball_container_x %d",int_ball_container_x);
+            NSLog(@"int_ball_container_y %d",int_ball_container_y);
+            CGRect frame_ball_container = 
+            CGRectMake(int_ball_container_x, int_ball_container_y,int_ball_width,int_ball_height);
+            UIView *view_ball_container = [[UIView alloc] initWithFrame:frame_ball_container];
+            view_ball_container.backgroundColor = [UIColor blueColor];
+            [self.view addSubview:view_ball_container];  
+            int_loop_started = int_ball_container_x;
+        }
+        int_loop_started = 0;
+    }
+    
 }
 @end
