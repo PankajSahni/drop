@@ -31,6 +31,8 @@
     [super viewDidLoad];
     
     NSLog(@"reached");
+    self.view.backgroundColor = 
+    [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
     NSMutableArray *dataArray = [[NSMutableArray alloc] initWithCapacity: 3];
     
     [dataArray insertObject:[NSMutableArray arrayWithObjects:@"0",@"0",@"0",nil] atIndex:0];
@@ -76,17 +78,27 @@
     view_game_background.backgroundColor = [UIColor redColor];
     [self.view addSubview:view_game_background];
     
-    int int_left_right_margin_yellow_background = 5;
-    int int_top_bottom_margin_yellow_background = 5;
+    int int_left_right_margin_yellow_background = 15;
+    int int_top_bottom_margin_yellow_background = 15;
     int int_yellow_background_width = int_screen_width - int_left_right_margin_yellow_background * 2;
     int int_yellow_background_height = 
     int_game_background_height - int_top_bottom_margin_yellow_background * 2;
-    int int_yellow_background_x = 5;
+    int int_yellow_background_x = 15;
     int int_yellow_background_y = int_game_background_y + int_top_bottom_margin_yellow_background;
     CGRect frame_view_game_yellow_board = CGRectMake(int_yellow_background_x,int_yellow_background_y,int_yellow_background_width,int_yellow_background_height);
     view_game_yellow_board = [[UIView alloc] initWithFrame:frame_view_game_yellow_board];
-    view_game_yellow_board.backgroundColor = [UIColor yellowColor];
+    view_game_yellow_board.backgroundColor = 
+    [UIColor colorWithRed:219/255.0f green:171/255.0f blue:38/255.0f alpha:1];
     [self.view addSubview:view_game_yellow_board];
+    
+    UIImage *image_yellow_board_top_shadow = [UIImage imageNamed:@"yellow_board_top_shadow.png"];
+    UIImageView *imageview_yellow_board_top_shadow = 
+    [[UIImageView alloc] initWithImage:image_yellow_board_top_shadow];
+    CGRect frame_yellow_board_top_shadow = CGRectMake(int_yellow_background_x,int_yellow_background_y,int_yellow_background_width,4);
+    imageview_yellow_board_top_shadow.frame = frame_yellow_board_top_shadow;
+    [self.view addSubview:imageview_yellow_board_top_shadow];
+    
+    
     int int_ball_width = (int_yellow_background_width*65)/(rows*100);
     int int_ball_height = (int_yellow_background_height*65)/(columns*100);
     int int_ball_width_x_margin = (int_yellow_background_width*32)/(rows*100);
@@ -100,20 +112,48 @@ for (int int_horizontal = 1; int_horizontal <= rows; int_horizontal = int_horizo
         int_ball_container_x = int_ball_container_x + int_ball_width + int_ball_width_x_margin;
     }
         int_ball_container_y = int_start_with_y;
+    CGRect frame_ball_container = 
+    CGRectMake(int_ball_container_x , int_ball_container_y-35, int_ball_width,int_ball_height);
+    
+    NSLog(@"con x: %d",int_ball_container_x);
+    UIImage *image_drop_arrow = [UIImage imageNamed:@"arrow-down.png"];
+    UIImageView *imageview_drop_arrow = [[UIImageView alloc] initWithImage:image_drop_arrow];
+    
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+    gestureRecognizer.cancelsTouchesInView = YES; 
+    imageview_drop_arrow.userInteractionEnabled = YES;
+    [imageview_drop_arrow addGestureRecognizer:gestureRecognizer];
+    
+    
+    imageview_drop_arrow.frame = frame_ball_container;
+    
+    
+    [self.view addSubview:imageview_drop_arrow]; 
+    
         for (int int_vetrical = 1; int_vetrical <= columns; int_vetrical = int_vetrical + 1) {
             if(int_loop_started == int_ball_container_x && int_vetrical != 1){
             int_ball_container_y = int_ball_container_y + int_ball_height + int_ball_width_y_margin;  
         }
             CGRect frame_ball_container = 
             CGRectMake(int_ball_container_x, int_ball_container_y,int_ball_width,int_ball_height);
-            //NSLog(@"My view frame: %@", NSStringFromCGRect(frame_ball_container));
-            UIView *view_ball_container = [[UIView alloc] initWithFrame:frame_ball_container];
-            view_ball_container.backgroundColor = [UIColor blueColor];
-            [self.view addSubview:view_ball_container];  
+            UIImage *image_ball_container = [UIImage imageNamed:@"game_inner_circle.png"];
+            UIImageView *imageview_ball_container = [[UIImageView alloc] initWithImage:image_ball_container];
+            imageview_ball_container.backgroundColor = 
+            [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
+            imageview_ball_container.frame = frame_ball_container;
+            [self.view addSubview:imageview_ball_container];  
             int_loop_started = int_ball_container_x;
         }
-        int_loop_started = 0;
-    }
     
+        int_loop_started = 0;
+    } 
 }
+
+
+- (void)handleGesture:(UIGestureRecognizer *)gestureRecognizer {
+    UIView* imageView_tapped_c_g_rect = gestureRecognizer.view;
+    int x = imageView_tapped_c_g_rect.frame.origin.x;
+    NSLog(@"x: %d",x);
+}
+
 @end
