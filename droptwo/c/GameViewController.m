@@ -15,6 +15,9 @@
 @implementation GameViewController
 @synthesize view_game_background;
 @synthesize view_game_yellow_board;
+@synthesize dictionary_martix_players;
+@synthesize array_x_cordinates;
+@synthesize array_y_cordinates;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -31,15 +34,12 @@
     [super viewDidLoad];
     
     NSLog(@"reached");
+    [self generateTwoDimensionalMatrixWithRows:(int)7 AndColumns:(int)6];
     self.view.backgroundColor = 
     [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
-    NSMutableArray *dataArray = [[NSMutableArray alloc] initWithCapacity: 3];
     
-    [dataArray insertObject:[NSMutableArray arrayWithObjects:@"0",@"0",@"0",nil] atIndex:0];
-    [dataArray insertObject:[NSMutableArray arrayWithObjects:@"0",@"0",@"0",nil] atIndex:1];
-    [dataArray insertObject:[NSMutableArray arrayWithObjects:@"0",@"0",@"0",nil] atIndex:2];
-    //NSLog(@"array %@",dataArray);
     [self createGameInterface];
+    
     
 }
 
@@ -107,6 +107,8 @@
     int int_ball_container_y = int_yellow_background_y + int_ball_width_y_margin;
     int int_loop_started = 0;
     int int_start_with_y = int_ball_container_y;
+    array_x_cordinates = [[NSMutableArray alloc] init ];
+    array_y_cordinates = [[NSMutableArray alloc] init ];
 for (int int_horizontal = 1; int_horizontal <= rows; int_horizontal = int_horizontal + 1) {
     if(int_horizontal != 1){
         int_ball_container_x = int_ball_container_x + int_ball_width + int_ball_width_x_margin;
@@ -115,7 +117,7 @@ for (int int_horizontal = 1; int_horizontal <= rows; int_horizontal = int_horizo
     CGRect frame_ball_container = 
     CGRectMake(int_ball_container_x , int_ball_container_y-35, int_ball_width,int_ball_height);
     
-    NSLog(@"con x: %d",int_ball_container_x);
+    
     UIImage *image_drop_arrow = [UIImage imageNamed:@"arrow-down.png"];
     UIImageView *imageview_drop_arrow = [[UIImageView alloc] initWithImage:image_drop_arrow];
     
@@ -129,11 +131,18 @@ for (int int_horizontal = 1; int_horizontal <= rows; int_horizontal = int_horizo
     
     
     [self.view addSubview:imageview_drop_arrow]; 
-    
+    [array_x_cordinates addObject:[NSString stringWithFormat:@"%d",int_ball_container_x]];
         for (int int_vetrical = 1; int_vetrical <= columns; int_vetrical = int_vetrical + 1) {
+            
             if(int_loop_started == int_ball_container_x && int_vetrical != 1){
             int_ball_container_y = int_ball_container_y + int_ball_height + int_ball_width_y_margin;  
-        }
+            }
+            if(int_horizontal == 1){
+                [array_y_cordinates addObject:[NSString stringWithFormat:@"%d",int_ball_container_y]];
+            }
+            
+            
+            
             CGRect frame_ball_container = 
             CGRectMake(int_ball_container_x, int_ball_container_y,int_ball_width,int_ball_height);
             UIImage *image_ball_container = [UIImage imageNamed:@"game_inner_circle.png"];
@@ -147,6 +156,8 @@ for (int int_horizontal = 1; int_horizontal <= rows; int_horizontal = int_horizo
     
         int_loop_started = 0;
     } 
+    NSLog(@"con x: %@",array_x_cordinates);
+    NSLog(@"con y: %@",array_y_cordinates);
 }
 
 
@@ -156,4 +167,14 @@ for (int int_horizontal = 1; int_horizontal <= rows; int_horizontal = int_horizo
     NSLog(@"x: %d",x);
 }
 
+-(void) generateTwoDimensionalMatrixWithRows:(int)n_rows AndColumns:(int)n_columns{
+    dictionary_martix_players = [[NSMutableDictionary alloc] init ];
+    for (int row = 0; row < n_rows; row ++) {
+        for (int column = 0; column < n_columns; column ++) {
+            NSString *row_and_column = [NSString stringWithFormat:@"%d%d",row,column];
+            [dictionary_martix_players setValue:@"pankaj" forKey:row_and_column];
+        }
+    }
+    //NSLog(@"dictionary_martix_players: %@",dictionary_martix_players);
+}
 @end

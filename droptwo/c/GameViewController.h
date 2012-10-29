@@ -15,4 +15,8 @@
 }
 @property (nonatomic, retain) UIView *view_game_background;
 @property (nonatomic, retain) UIView *view_game_yellow_board;
+
+@property (nonatomic, retain) NSMutableDictionary *dictionary_martix_players;
+@property (nonatomic, retain) NSMutableArray *array_x_cordinates;
+@property (nonatomic, retain) NSMutableArray *array_y_cordinates;
 @end
