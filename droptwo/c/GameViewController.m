@@ -38,8 +38,8 @@
     [super viewDidLoad];
     
     NSLog(@"reached");
-    int_rows = 6;
-    int_columns = 7;
+    int_rows = 7;
+    int_columns = 6;
     [self generateTwoDimensionalMatrixWithRows:(int)int_rows AndColumns:(int)int_columns];
     self.view.backgroundColor = 
     [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
