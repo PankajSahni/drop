@@ -19,4 +19,8 @@
 @property (nonatomic, retain) NSMutableDictionary *dictionary_martix_players;
 @property (nonatomic, retain) NSMutableArray *array_x_cordinates;
 @property (nonatomic, retain) NSMutableArray *array_y_cordinates;
+@property (nonatomic, assign) int int_rows;
+@property (nonatomic, assign) int int_columns;
+@property (nonatomic, assign) int int_ball_width;
+@property (nonatomic, assign) int int_ball_height;
 @end

@@ -18,6 +18,10 @@
 @synthesize dictionary_martix_players;
 @synthesize array_x_cordinates;
 @synthesize array_y_cordinates;
+@synthesize int_rows;
+@synthesize int_columns;
+@synthesize int_ball_width;
+@synthesize int_ball_height;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -34,7 +38,9 @@
     [super viewDidLoad];
     
     NSLog(@"reached");
-    [self generateTwoDimensionalMatrixWithRows:(int)7 AndColumns:(int)6];
+    int_rows = 6;
+    int_columns = 7;
+    [self generateTwoDimensionalMatrixWithRows:(int)int_rows AndColumns:(int)int_columns];
     self.view.backgroundColor = 
     [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
     
@@ -56,10 +62,10 @@
 }
 - (void)createGameInterface
 {
-    [self createGameBackgroundTopBottomMargin:(int)20 WithRows:(int)7 AndColumns:(int)6];
+    [self createGameBackgroundTopBottomMargin:(int)20];
 }
 
-- (void)createGameBackgroundTopBottomMargin:(int)int_top_bottom_margin WithRows:(int)rows AndColumns:(int)columns
+- (void)createGameBackgroundTopBottomMargin:(int)int_top_bottom_margin
 {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat int_screen_width = (int)screenRect.size.width;
@@ -99,17 +105,17 @@
     [self.view addSubview:imageview_yellow_board_top_shadow];
     
     
-    int int_ball_width = (int_yellow_background_width*65)/(rows*100);
-    int int_ball_height = (int_yellow_background_height*65)/(columns*100);
-    int int_ball_width_x_margin = (int_yellow_background_width*32)/(rows*100);
-    int int_ball_width_y_margin = (int_yellow_background_height*30)/(columns*100);
+    int_ball_width = (int_yellow_background_width*65)/(int_rows*100);
+    int_ball_height = (int_yellow_background_height*65)/(int_columns*100);
+    int int_ball_width_x_margin = (int_yellow_background_width*32)/(int_rows*100);
+    int int_ball_width_y_margin = (int_yellow_background_height*30)/(int_columns*100);
     int int_ball_container_x = int_yellow_background_x + int_ball_width_x_margin;
     int int_ball_container_y = int_yellow_background_y + int_ball_width_y_margin;
     int int_loop_started = 0;
     int int_start_with_y = int_ball_container_y;
     array_x_cordinates = [[NSMutableArray alloc] init ];
     array_y_cordinates = [[NSMutableArray alloc] init ];
-for (int int_horizontal = 1; int_horizontal <= rows; int_horizontal = int_horizontal + 1) {
+for (int int_horizontal = 1; int_horizontal <= int_rows; int_horizontal = int_horizontal + 1) {
     if(int_horizontal != 1){
         int_ball_container_x = int_ball_container_x + int_ball_width + int_ball_width_x_margin;
     }
@@ -132,7 +138,7 @@ for (int int_horizontal = 1; int_horizontal <= rows; int_horizontal = int_horizo
     
     [self.view addSubview:imageview_drop_arrow]; 
     [array_x_cordinates addObject:[NSString stringWithFormat:@"%d",int_ball_container_x]];
-        for (int int_vetrical = 1; int_vetrical <= columns; int_vetrical = int_vetrical + 1) {
+        for (int int_vetrical = 1; int_vetrical <= int_columns; int_vetrical = int_vetrical + 1) {
             
             if(int_loop_started == int_ball_container_x && int_vetrical != 1){
             int_ball_container_y = int_ball_container_y + int_ball_height + int_ball_width_y_margin;  
@@ -156,15 +162,37 @@ for (int int_horizontal = 1; int_horizontal <= rows; int_horizontal = int_horizo
     
         int_loop_started = 0;
     } 
-    NSLog(@"con x: %@",array_x_cordinates);
-    NSLog(@"con y: %@",array_y_cordinates);
+    //NSLog(@"con x: %@",array_x_cordinates);
+    //NSLog(@"con y: %@",array_y_cordinates);
 }
 
 
 - (void)handleGesture:(UIGestureRecognizer *)gestureRecognizer {
-    UIView* imageView_tapped_c_g_rect = gestureRecognizer.view;
-    int x = imageView_tapped_c_g_rect.frame.origin.x;
-    NSLog(@"x: %d",x);
+    UIView* imageView_tapped_cg_rect = gestureRecognizer.view;
+    int int_x_clicked = imageView_tapped_cg_rect.frame.origin.x;
+    int int_active_row = 0;
+    int int_temp_x = 0;
+    for (int row = 0; row < int_rows; row ++) {
+        int_temp_x = [[array_x_cordinates  objectAtIndex:row] intValue];
+        if (int_x_clicked == int_temp_x) {
+            int_active_row = row;
+        }
+    }
+    for (int column = 0; column < int_columns; column ++) {
+        NSString *row_and_column = [NSString stringWithFormat:@"%d%d",int_active_row,column];
+        NSString *player_at_position = [dictionary_martix_players valueForKey:row_and_column];
+        if ([player_at_position isEqualToString:@"empty"]) {
+            int x_axis = [[array_x_cordinates objectAtIndex:int_active_row] intValue];
+            int y_axis = [[array_y_cordinates objectAtIndex:column] intValue];
+            UIImage *image_ball = [UIImage imageNamed:@"blue_ball.png"]; 
+            CGRect frame_ball = 
+            CGRectMake(x_axis, y_axis, int_ball_width, int_ball_height);
+            UIImageView *imageview_ball = [[UIImageView alloc] initWithImage:image_ball];
+            imageview_ball.frame = frame_ball;
+            [self.view addSubview:imageview_ball]; 
+        }
+        
+    }
 }
 
 -(void) generateTwoDimensionalMatrixWithRows:(int)n_rows AndColumns:(int)n_columns{
@@ -172,7 +200,7 @@ for (int int_horizontal = 1; int_horizontal <= rows; int_horizontal = int_horizo
     for (int row = 0; row < n_rows; row ++) {
         for (int column = 0; column < n_columns; column ++) {
             NSString *row_and_column = [NSString stringWithFormat:@"%d%d",row,column];
-            [dictionary_martix_players setValue:@"pankaj" forKey:row_and_column];
+        [dictionary_martix_players setValue:@"empty" forKey:row_and_column];
         }
     }
     //NSLog(@"dictionary_martix_players: %@",dictionary_martix_players);
