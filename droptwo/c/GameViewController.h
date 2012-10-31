@@ -12,6 +12,8 @@
 {
     UIView *view_game_background;
     UIView *view_game_yellow_board;
+    NSTimer *timer_animate_to_last_available_column;
+    UIImageView *imageview_ball;
 }
 @property (nonatomic, retain) UIView *view_game_background;
 @property (nonatomic, retain) UIView *view_game_yellow_board;
@@ -23,4 +25,6 @@
 @property (nonatomic, assign) int int_columns;
 @property (nonatomic, assign) int int_ball_width;
 @property (nonatomic, assign) int int_ball_height;
+
+@property (nonatomic, assign) int int_scrolled_upto_column;
 @end

@@ -22,6 +22,7 @@
 @synthesize int_columns;
 @synthesize int_ball_width;
 @synthesize int_ball_height;
+@synthesize int_scrolled_upto_column;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -178,21 +179,20 @@ for (int int_horizontal = 1; int_horizontal <= int_rows; int_horizontal = int_ho
             int_active_row = row;
         }
     }
-    for (int column = 0; column < int_columns; column ++) {
-        NSString *row_and_column = [NSString stringWithFormat:@"%d%d",int_active_row,column];
-        NSString *player_at_position = [dictionary_martix_players valueForKey:row_and_column];
-        if ([player_at_position isEqualToString:@"empty"]) {
-            int x_axis = [[array_x_cordinates objectAtIndex:int_active_row] intValue];
-            int y_axis = [[array_y_cordinates objectAtIndex:column] intValue];
-            UIImage *image_ball = [UIImage imageNamed:@"blue_ball.png"]; 
-            CGRect frame_ball = 
-            CGRectMake(x_axis, y_axis, int_ball_width, int_ball_height);
-            UIImageView *imageview_ball = [[UIImageView alloc] initWithImage:image_ball];
-            imageview_ball.frame = frame_ball;
-            [self.view addSubview:imageview_ball]; 
-        }
-        
-    }
+    NSString *string_active_row = [NSString stringWithFormat:@"%d", int_active_row];
+    UIImage *image_ball = [UIImage imageNamed:@"blue_ball.png"];
+    imageview_ball = [[UIImageView alloc] initWithImage:image_ball];
+    int_scrolled_upto_column = 0;
+    int x_axis = [[array_x_cordinates objectAtIndex:int_active_row] intValue];
+    int y_axis = [[array_y_cordinates objectAtIndex:0] intValue];
+    
+    CGRect frame_ball = 
+    CGRectMake(x_axis, y_axis - 22, int_ball_width, int_ball_height);
+    
+    imageview_ball.frame = frame_ball;
+    [self.view addSubview:imageview_ball];
+    timer_animate_to_last_available_column = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(dropBallToLowestPossibleColumn:) userInfo:string_active_row repeats:YES];
+
 }
 
 -(void) generateTwoDimensionalMatrixWithRows:(int)n_rows AndColumns:(int)n_columns{
@@ -205,4 +205,34 @@ for (int int_horizontal = 1; int_horizontal <= int_rows; int_horizontal = int_ho
     }
     //NSLog(@"dictionary_martix_players: %@",dictionary_martix_players);
 }
+
+- (void)dropBallToLowestPossibleColumn:(NSTimer *)timer
+{
+    NSString *string_active_row = timer.userInfo;
+    int int_active_row = [string_active_row intValue];
+    
+    NSString *row_and_column = [NSString stringWithFormat:@"%d%d",int_active_row,int_scrolled_upto_column];
+        NSString *player_at_position = [dictionary_martix_players valueForKey:row_and_column];
+        if ([player_at_position isEqualToString:@"empty"]) {
+            [imageview_ball removeFromSuperview];
+            int x_axis = [[array_x_cordinates objectAtIndex:int_active_row] intValue];
+            int y_axis = [[array_y_cordinates objectAtIndex:int_scrolled_upto_column] intValue];
+             
+            CGRect frame_ball = 
+            CGRectMake(x_axis, y_axis, int_ball_width, int_ball_height);
+            
+            imageview_ball.frame = frame_ball;
+            [self.view addSubview:imageview_ball];
+    }
+        else{
+            [dictionary_martix_players setValue:@"me" forKey:row_and_column];
+            [timer_animate_to_last_available_column invalidate];
+            timer_animate_to_last_available_column = nil;
+        }
+    int_scrolled_upto_column = int_scrolled_upto_column + 1;
+    if(int_scrolled_upto_column == int_columns){
+        [timer_animate_to_last_available_column invalidate];
+        timer_animate_to_last_available_column = nil;
+    }
+} 
 @end
