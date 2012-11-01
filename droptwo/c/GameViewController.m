@@ -82,7 +82,7 @@
     int int_game_background_y = int_leave_percent_height;
     CGRect frame_view_game_background = CGRectMake(int_game_background_x,int_game_background_y,int_game_background_width,int_game_background_height);
     view_game_background = [[UIView alloc] initWithFrame:frame_view_game_background];
-    view_game_background.backgroundColor = [UIColor redColor];
+    //view_game_background.backgroundColor = [UIColor redColor];
     [self.view addSubview:view_game_background];
     
     int int_left_right_margin_yellow_background = 15;
