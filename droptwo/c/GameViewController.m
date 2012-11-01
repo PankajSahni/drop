@@ -106,8 +106,8 @@
     [self.view addSubview:imageview_yellow_board_top_shadow];
     
     
-    int_ball_width = (int_yellow_background_width*65)/(int_rows*100);
-    int_ball_height = (int_yellow_background_height*65)/(int_columns*100);
+    int_ball_width = (int_yellow_background_width*66)/(int_rows*100);
+    int_ball_height = (int_yellow_background_height*70)/(int_columns*100);
     int int_ball_width_x_margin = (int_yellow_background_width*32)/(int_rows*100);
     int int_ball_width_y_margin = (int_yellow_background_height*30)/(int_columns*100);
     int int_ball_container_x = int_yellow_background_x + int_ball_width_x_margin;
@@ -219,7 +219,7 @@ for (int int_horizontal = 1; int_horizontal <= int_rows; int_horizontal = int_ho
             int y_axis = [[array_y_cordinates objectAtIndex:int_scrolled_upto_column] intValue];
              
             CGRect frame_ball = 
-            CGRectMake(x_axis, y_axis, int_ball_width, int_ball_height);
+            CGRectMake(x_axis+1, y_axis-2, int_ball_width, int_ball_height);
             
             imageview_ball.frame = frame_ball;
             [self.view addSubview:imageview_ball];
