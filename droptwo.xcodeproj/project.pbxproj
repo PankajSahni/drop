@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04294B7E1648040A003D4E60 /* red_ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 04294B7D1648040A003D4E60 /* red_ball.png */; };
 		0451CFE21622DCC7001B231B /* FBFriendsPickerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451CFE11622DCC7001B231B /* FBFriendsPickerModel.m */; };
 		047538D9163580B100BCBF69 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047538D7163580B100BCBF69 /* GameViewController.m */; };
 		047538DE163580DB00BCBF69 /* GameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 047538DD163580DB00BCBF69 /* GameModel.m */; };
@@ -65,6 +66,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04294B7D1648040A003D4E60 /* red_ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red_ball.png; sourceTree = "<group>"; };
 		0451CFE01622DCC7001B231B /* FBFriendsPickerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBFriendsPickerModel.h; sourceTree = "<group>"; };
 		0451CFE11622DCC7001B231B /* FBFriendsPickerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBFriendsPickerModel.m; sourceTree = "<group>"; };
 		047538D6163580B100BCBF69 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 		048441AB1625ABF800155E35 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				04294B7D1648040A003D4E60 /* red_ball.png */,
 				048E7D351642A46100803C60 /* back_arrow.png */,
 				048E7D361642A46100803C60 /* chat.png */,
 				048E7D371642A46100803C60 /* Drop4.png */,
@@ -378,6 +381,7 @@
 				048E7D401642A46100803C60 /* player_container.png in Resources */,
 				048E7D411642A46100803C60 /* player1.png in Resources */,
 				048E7D421642A46100803C60 /* player2.png in Resources */,
+				04294B7E1648040A003D4E60 /* red_ball.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

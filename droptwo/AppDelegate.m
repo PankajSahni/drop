@@ -189,8 +189,9 @@ NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:S
     //NSLog(@"%@",FBSession.activeSession);
     return [FBSession.activeSession handleOpenURL:url]; 
 }
-
-
-
-
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+NSString *str = [deviceToken description]; 
+NSLog(@"toekn%@", str); 
+}
 @end

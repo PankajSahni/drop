@@ -7,9 +7,11 @@
 //
 
 #import "GameViewController.h"
-
+#import "GameModel.h"
+#import "GlobalSingleton.h"
 @interface GameViewController ()
-
+@property (readonly) GameModel *gameModelObject; 
+@property (readonly) GlobalUtility *globalUtilityObject;
 @end
 
 @implementation GameViewController
@@ -23,6 +25,22 @@
 @synthesize int_ball_width;
 @synthesize int_ball_height;
 @synthesize int_scrolled_upto_column;
+@synthesize spinner;
+
+- (GameModel *) gameModelObject{
+    if(!gameModelObject){
+        gameModelObject = [[GameModel alloc] init];
+        gameModelObject.delegate = self;
+        
+    }
+    return gameModelObject;
+}
+- (GlobalUtility *) globalUtilityObject{
+    if(!globalUtilityObject){
+        globalUtilityObject = [[GlobalUtility alloc] init];
+    }
+    return globalUtilityObject;
+}
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -34,20 +52,18 @@
 
 - (void)viewDidLoad
 {
-    
 
     [super viewDidLoad];
-    
+    [spinner startAnimating];
     NSLog(@"reached");
     int_rows = 7;
     int_columns = 6;
     [self generateTwoDimensionalMatrixWithRows:(int)int_rows AndColumns:(int)int_columns];
     self.view.backgroundColor = 
     [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
-    
     [self createGameInterface];
-    
-    
+    [self loadPlayersAtPositions];
+  
 }
 
 - (void)viewDidUnload
@@ -106,10 +122,10 @@
     [self.view addSubview:imageview_yellow_board_top_shadow];
     
     
-    int_ball_width = (int_yellow_background_width*66)/(int_rows*100);
-    int_ball_height = (int_yellow_background_height*70)/(int_columns*100);
-    int int_ball_width_x_margin = (int_yellow_background_width*32)/(int_rows*100);
-    int int_ball_width_y_margin = (int_yellow_background_height*30)/(int_columns*100);
+    int_ball_width = (int_yellow_background_width*76)/(int_rows*100);
+    int_ball_height = (int_yellow_background_height*80)/(int_columns*100);
+    int int_ball_width_x_margin = (int_yellow_background_width*22)/(int_rows*100);
+    int int_ball_width_y_margin = (int_yellow_background_height*20)/(int_columns*100);
     int int_ball_container_x = int_yellow_background_x + int_ball_width_x_margin;
     int int_ball_container_y = int_yellow_background_y + int_ball_width_y_margin;
     int int_loop_started = 0;
@@ -203,14 +219,12 @@ for (int int_horizontal = 1; int_horizontal <= int_rows; int_horizontal = int_ho
         [dictionary_martix_players setValue:@"empty" forKey:row_and_column];
         }
     }
-    //NSLog(@"dictionary_martix_players: %@",dictionary_martix_players);
 }
-
 - (void)dropBallToLowestPossibleColumn:(NSTimer *)timer
 {
     NSString *string_active_row = timer.userInfo;
     int int_active_row = [string_active_row intValue];
-    
+    NSString *game_id = @"25";
     NSString *row_and_column = [NSString stringWithFormat:@"%d%d",int_active_row,int_scrolled_upto_column];
         NSString *player_at_position = [dictionary_martix_players valueForKey:row_and_column];
         if ([player_at_position isEqualToString:@"empty"]) {
@@ -225,14 +239,90 @@ for (int int_horizontal = 1; int_horizontal <= int_rows; int_horizontal = int_ho
             [self.view addSubview:imageview_ball];
     }
         else{
-            [dictionary_martix_players setValue:@"me" forKey:row_and_column];
+            NSString *string_my_fb_id = 
+            [GlobalSingleton sharedManager].string_my_fb_id;
+            [dictionary_martix_players 
+             setValue:string_my_fb_id
+             forKey:row_and_column];
+            [self updateMyTurnForGameId:(NSString *)game_id WithX:(int)int_active_row AndY:(int)int_scrolled_upto_column]; 
             [timer_animate_to_last_available_column invalidate];
             timer_animate_to_last_available_column = nil;
         }
     int_scrolled_upto_column = int_scrolled_upto_column + 1;
     if(int_scrolled_upto_column == int_columns){
+        [dictionary_martix_players 
+         setValue:[GlobalSingleton sharedManager].string_my_fb_id
+         forKey:row_and_column];
+        
+        [self updateMyTurnForGameId:(NSString *)game_id WithX:(int)int_active_row AndY:(int)int_scrolled_upto_column]; 
         [timer_animate_to_last_available_column invalidate];
         timer_animate_to_last_available_column = nil;
     }
 } 
+
+
+
+- (void)loadPlayersAtPositions
+{
+    
+    NSString *string_get_all_turns_for_game = @"get_all_turns_for_game.php";
+    NSString *string_game_id = @"29";
+    NSDictionary *dictionary_for_json_data = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                              string_game_id,@"game_id", nil];
+    NSError *error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary_for_json_data options:0 error:&error];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    //
+    NSDictionary *dictionary_response = [self.globalUtilityObject modelHitWebservice:(NSString *)string_get_all_turns_for_game with_json:(NSString *)jsonString];
+    NSString *string_status = [dictionary_response valueForKey:@"STATUS"];
+    NSLog(@"string_status %@",string_status);
+    if ([string_status isEqualToString:@"1"]) {
+        NSArray *array_response = [[NSArray alloc] init];
+        array_response = [dictionary_response valueForKey:@"TURNS"];
+        NSLog(@"array %@",array_response);
+        NSString *string_my_fb_id = [GlobalSingleton sharedManager].string_my_fb_id;
+        for (NSDictionary *dictionary_turn in array_response) {
+            NSString *string_position_x = [dictionary_turn objectForKey:@"position_x"];
+            NSString *string_position_y = [dictionary_turn objectForKey:@"position_y"];
+            int int_position_x = [string_position_x intValue];
+            int int_position_y = [string_position_y intValue];
+            NSString *row_and_column = [NSString stringWithFormat:@"%d%d",int_position_x,int_position_y];
+            NSString *turn_by = [dictionary_turn objectForKey:@"turn_by"];
+            [dictionary_martix_players setValue:turn_by forKey:row_and_column];
+            UIImage *image_ball;
+            if ([turn_by isEqualToString:string_my_fb_id]) {
+                image_ball = [UIImage imageNamed:@"blue_ball.png"];
+            }
+            else{
+                image_ball = [UIImage imageNamed:@"red_ball.png"];
+            }
+            imageview_ball = [[UIImageView alloc] initWithImage:image_ball];
+            int x_axis = [[array_x_cordinates objectAtIndex:int_position_x] intValue];
+            int y_axis = [[array_y_cordinates objectAtIndex:int_position_y] intValue];  
+            CGRect frame_ball = 
+            CGRectMake(x_axis, y_axis, int_ball_width, int_ball_height);
+            imageview_ball.frame = frame_ball;
+            [self.view addSubview:imageview_ball];
+        }
+        [self.view setNeedsDisplay];
+    }
+    [spinner stopAnimating];
+}
+- (void)updateMyTurnForGameId:(NSString *)string_game_id WithX:(int)int_x AndY:(int)int_y
+{
+    NSString *string_get_all_turns_for_game = @"turns.php";
+    NSString *string_my_fb_id = [GlobalSingleton sharedManager].string_my_fb_id;
+    NSString *string_x = [NSString stringWithFormat:@"%d", int_x];
+    NSString *string_y = [NSString stringWithFormat:@"%d", int_y];
+    NSDictionary *dictionary_for_json_data = [[NSDictionary alloc] initWithObjectsAndKeys:
+    string_game_id,@"game_id", string_x, @"position_x",string_y, @"position_y",
+                                              string_my_fb_id, @"turn_by", @"1", @"status", nil];
+    NSError *error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary_for_json_data options:0 error:&error];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    //
+    NSDictionary *dictionary_response = [self.globalUtilityObject modelHitWebservice:(NSString *)string_get_all_turns_for_game with_json:(NSString *)jsonString];
+    NSString *string_status = [dictionary_response valueForKey:@"MESSAGE"];
+    NSLog(@"MESSAGE %@",string_status);
+}
 @end

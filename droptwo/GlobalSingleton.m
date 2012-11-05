@@ -12,6 +12,7 @@
 @synthesize array_friends_already_invited;
 @synthesize string_my_fb_id;
 @synthesize string_my_fb_name;
+@synthesize string_my_device_token;
 static GlobalSingleton *sharedManager; // self
 
 //- (void)dealloc 

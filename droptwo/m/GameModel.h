@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+@protocol delegateGame
+-(void) refreshData;
+@end
+@interface GameModel : NSObject{
+    id <delegateGame> delegate;
+}
+-(void)dictionaryInflateMetrixPositions:(NSDictionary *)dictionary;
 
-@interface GameModel : NSObject
-
+@property (retain, nonatomic) id <delegateGame> delegate;
 @end
