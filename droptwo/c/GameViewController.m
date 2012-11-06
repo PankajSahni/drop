@@ -142,7 +142,7 @@ for (int int_horizontal = 1; int_horizontal <= int_rows; int_horizontal = int_ho
     
     
     UIImage *image_drop_arrow = [UIImage imageNamed:@"arrow-down.png"];
-    UIImageView *imageview_drop_arrow = [[UIImageView alloc] initWithImage:image_drop_arrow];
+    imageview_drop_arrow = [[UIImageView alloc] initWithImage:image_drop_arrow];
     
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     gestureRecognizer.cancelsTouchesInView = YES; 
@@ -169,7 +169,7 @@ for (int int_horizontal = 1; int_horizontal <= int_rows; int_horizontal = int_ho
             CGRect frame_ball_container = 
             CGRectMake(int_ball_container_x, int_ball_container_y,int_ball_width,int_ball_height);
             UIImage *image_ball_container = [UIImage imageNamed:@"game_inner_circle.png"];
-            UIImageView *imageview_ball_container = [[UIImageView alloc] initWithImage:image_ball_container];
+        UIImageView *imageview_ball_container = [[UIImageView alloc] initWithImage:image_ball_container];
             imageview_ball_container.backgroundColor = 
             [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"background.png"]];
             imageview_ball_container.frame = frame_ball_container;
@@ -185,6 +185,7 @@ for (int int_horizontal = 1; int_horizontal <= int_rows; int_horizontal = int_ho
 
 
 - (void)handleGesture:(UIGestureRecognizer *)gestureRecognizer {
+
     UIView* imageView_tapped_cg_rect = gestureRecognizer.view;
     int int_x_clicked = imageView_tapped_cg_rect.frame.origin.x;
     int int_active_row = 0;
@@ -255,6 +256,7 @@ for (int int_horizontal = 1; int_horizontal <= int_rows; int_horizontal = int_ho
          forKey:row_and_column];
         
         [self updateMyTurnForGameId:(NSString *)game_id WithX:(int)int_active_row AndY:(int)int_scrolled_upto_column]; 
+        
         [timer_animate_to_last_available_column invalidate];
         timer_animate_to_last_available_column = nil;
     }
@@ -275,11 +277,11 @@ for (int int_horizontal = 1; int_horizontal <= int_rows; int_horizontal = int_ho
     //
     NSDictionary *dictionary_response = [self.globalUtilityObject modelHitWebservice:(NSString *)string_get_all_turns_for_game with_json:(NSString *)jsonString];
     NSString *string_status = [dictionary_response valueForKey:@"STATUS"];
-    NSLog(@"string_status %@",string_status);
+    //NSLog(@"string_status %@",string_status);
     if ([string_status isEqualToString:@"1"]) {
         NSArray *array_response = [[NSArray alloc] init];
         array_response = [dictionary_response valueForKey:@"TURNS"];
-        NSLog(@"array %@",array_response);
+        //NSLog(@"array %@",array_response);
         NSString *string_my_fb_id = [GlobalSingleton sharedManager].string_my_fb_id;
         for (NSDictionary *dictionary_turn in array_response) {
             NSString *string_position_x = [dictionary_turn objectForKey:@"position_x"];
@@ -322,7 +324,7 @@ for (int int_horizontal = 1; int_horizontal <= int_rows; int_horizontal = int_ho
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     //
     NSDictionary *dictionary_response = [self.globalUtilityObject modelHitWebservice:(NSString *)string_get_all_turns_for_game with_json:(NSString *)jsonString];
-    NSString *string_status = [dictionary_response valueForKey:@"MESSAGE"];
-    NSLog(@"MESSAGE %@",string_status);
+    //NSString *string_status = [dictionary_response valueForKey:@"MESSAGE"];
+    //NSLog(@"MESSAGE %@",string_status);
 }
 @end

@@ -135,6 +135,7 @@
 		04F95873162C05560033803A /* friends_list_without_pattern.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friends_list_without_pattern.png; sourceTree = "<group>"; };
 		04F95874162C05560033803A /* signout 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "signout 2.png"; sourceTree = "<group>"; };
 		04F95875162C05560033803A /* start_game 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "start_game 2.png"; sourceTree = "<group>"; };
+		04FA100F1648FA080003E373 /* droptwo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = droptwo.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -270,6 +271,7 @@
 		0484852E160894C400DE1528 /* droptwo */ = {
 			isa = PBXGroup;
 			children = (
+				04FA100F1648FA080003E373 /* droptwo.entitlements */,
 				0484419A162594FC00155E35 /* GlobalUtility.h */,
 				0484419B162594FC00155E35 /* GlobalUtility.m */,
 				04B2A21B1624000D004CF030 /* GlobalSingleton.h */,
@@ -437,7 +439,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Samir Roy (NXZ2DSQU9X)";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: 6Z842A97CR:6Z842A97CR";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development IOS Push Services: 6Z842A97CR:6Z842A97CR";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -451,8 +454,9 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2F23E3D9-102E-4A08-A44B-3364686C87A4";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -463,15 +467,18 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: 6Z842A97CR:6Z842A97CR";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gurvinder Batra (Q3HXH3MWZ2)";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BE71D374-73F7-413B-ADC4-C8D7AFDB8310";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -480,7 +487,9 @@
 		04848543160894C400DE1528 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Samir Roy (NXZ2DSQU9X)";
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: 6Z842A97CR:6Z842A97CR";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gurvinder Batra (Q3HXH3MWZ2)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -488,8 +497,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "droptwo/droptwo-Prefix.pch";
 				INFOPLIST_FILE = "droptwo/droptwo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2F23E3D9-102E-4A08-A44B-3364686C87A4";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BE71D374-73F7-413B-ADC4-C8D7AFDB8310";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -497,6 +508,7 @@
 		04848544160894C400DE1528 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: 6Z842A97CR:6Z842A97CR";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -504,7 +516,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "droptwo/droptwo-Prefix.pch";
 				INFOPLIST_FILE = "droptwo/droptwo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -519,7 +533,7 @@
 				04848541160894C400DE1528 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		04848542160894C400DE1528 /* Build configuration list for PBXNativeTarget "droptwo" */ = {
 			isa = XCConfigurationList;
@@ -528,7 +542,7 @@
 				04848544160894C400DE1528 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

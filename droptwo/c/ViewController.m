@@ -81,11 +81,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
-    GameViewController *_viewCntrl =[[GameViewController alloc]init];
-    [self.navigationController pushViewController:_viewCntrl animated:YES];
-    
+
     
     [spinner startAnimating];
     self.view.backgroundColor = 

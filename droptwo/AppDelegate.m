@@ -39,7 +39,8 @@ NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:S
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
+ 
+    
     
     [FBProfilePictureView class];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -56,7 +57,13 @@ NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:S
         // No, display the login page.
         [self showLoginView];
     }
+    [[UIApplication sharedApplication] 
+     registerForRemoteNotificationTypes:
+     (UIRemoteNotificationTypeAlert | 
+      UIRemoteNotificationTypeBadge | 
+      UIRemoteNotificationTypeSound)];
     return YES;
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -189,9 +196,32 @@ NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:S
     //NSLog(@"%@",FBSession.activeSession);
     return [FBSession.activeSession handleOpenURL:url]; 
 }
-- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
-{
-NSString *str = [deviceToken description]; 
-NSLog(@"toekn%@", str); 
+
+
+
+- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken { 
+    
+    NSString *str = [NSString 
+                     stringWithFormat:@"Device Token=%@",deviceToken];
+    NSLog(@"str: %@",str);
+    
 }
+
+- (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err { 
+    
+    NSString *str = [NSString stringWithFormat: @"Error: %@", err];
+    NSLog(@"error: %@",str);  
+    
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    
+    for (id key in userInfo) {
+        NSLog(@"key: %@, value: %@", key, [userInfo objectForKey:key]);
+    }    
+    
+}
+
+
+
 @end

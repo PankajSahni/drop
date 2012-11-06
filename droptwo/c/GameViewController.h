@@ -16,7 +16,7 @@
     NSTimer *timer_animate_to_last_available_column;
     GlobalUtility *globalUtilityObject;
     UIImageView *imageview_ball;
-    
+    UIImageView *imageview_drop_arrow;
     GameModel *gameModelObject;
 }
 @property (nonatomic, retain) UIView *view_game_background;
