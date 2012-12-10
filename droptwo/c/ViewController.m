@@ -249,9 +249,11 @@ UIImageView *imageview_section_header = [[UIImageView alloc] initWithImage:image
 {
     NSString *string_my_fb_id = [GlobalSingleton sharedManager].string_my_fb_id;
     NSString *string_my_fb_name = [GlobalSingleton sharedManager].string_my_fb_name;
+    NSString *string_my_device_token = [GlobalSingleton sharedManager].string_my_device_token;
     NSString *string_update_user_id = @"user.php";
     NSDictionary *dictionary_for_json_data = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                            string_my_fb_id,@"fb_id",string_my_fb_name,@"name", nil];
+                                            string_my_fb_id,@"fb_id",string_my_fb_name,@"name",
+                                              string_my_device_token,@"device_token",@"device_type", @"ios", nil];
     NSError *error = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary_for_json_data options:0 error:&error];
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];

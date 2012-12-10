@@ -52,6 +52,7 @@
              if (!error) {
                  [GlobalSingleton sharedManager].string_my_fb_id = (NSString *) user.id;
                  [GlobalSingleton sharedManager].string_my_fb_name = (NSString *) user.name;
+                 NSLog(@"fb id %@",[GlobalSingleton sharedManager].string_my_fb_id);
                  [delegate loadTableData];    
              }
          }];      

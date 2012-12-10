@@ -4,7 +4,7 @@
 //
 //  Created by Mac on 18/09/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+//str
 
 #import "AppDelegate.h"
 
@@ -201,23 +201,28 @@ NSString *const SCSessionStateChangedNotification = @"com.facebook.Scrumptious:S
 
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken { 
     
-    NSString *str = [NSString 
+    NSString *string_device_token = [NSString 
                      stringWithFormat:@"Device Token=%@",deviceToken];
-    NSLog(@"str: %@",str);
+    NSArray *array_remove_staring_part = [string_device_token componentsSeparatedByString: @"<"];
+    string_device_token = [array_remove_staring_part objectAtIndex: 1];
+    NSArray *array_remove_ending_part = [string_device_token componentsSeparatedByString: @">"];
+    string_device_token = [array_remove_ending_part objectAtIndex: 0];
+    [GlobalSingleton sharedManager].string_my_device_token = string_device_token;
+    NSLog(@"remote notification str: %@",string_device_token);
     
 }
 
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err { 
     
     NSString *str = [NSString stringWithFormat: @"Error: %@", err];
-    NSLog(@"error: %@",str);  
+    NSLog(@"remote notification error: %@",str);  
     
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     
     for (id key in userInfo) {
-        NSLog(@"key: %@, value: %@", key, [userInfo objectForKey:key]);
+        NSLog(@"remote notification key: %@, value: %@", key, [userInfo objectForKey:key]);
     }    
     
 }
